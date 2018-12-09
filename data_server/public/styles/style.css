@@ -1,0 +1,30 @@
+
+h1 {
+  color: #ff0000;
+  background-color: #cccccc;
+  text-align: center;
+}
+
+div {
+  margin-top: 50px;
+  margin-bottom: 50px;
+  margin-right: 50px;
+  margin-left: 50px;
+  background-color: #ffffff;
+  background-color: #dddddd;
+
+}
+table, th, td {
+   border: 1px solid black;
+}
+.top_row{
+  background-color: #000000;
+  color: #ffffff;
+}
+.hidden{
+  display: none;
+}
+
+.visible{
+  display:block;
+}

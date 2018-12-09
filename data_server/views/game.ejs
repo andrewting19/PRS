@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>P,R,S - Game</title>
+  <link rel="stylesheet" href="styles/style.css">
+ </head>
+
+<body>
+  <% include global/header %>
+
+  <div id="feedback">
+  </div>
+  <div id="throw_choice">
+      <h2>Play the Game</h2>
+      <h4><%=user.name%> it's your turn to bust a move!</h4>
+      <form action="<%=user.name%>/results" method="get">
+        Enter your choice of weapon:<br>
+        <select name="weapon">
+          <option value=" "> </option>
+          <option value="paper">Paper</option>
+          <option value="rock">Rock</option>
+          <option value="scissors">Scissors</option>
+        </select><br>
+        <button type = "submit" id="throw_choice_button">Throw Choice</button>
+      </form>
+    </div>
+  <footer>
+    Brought to you by the cool kids of Software Engineering - Fall, 2018.
+  </footer>
+  <script src="scripts/scripts.js"></script>
+ </body>
+</html>
