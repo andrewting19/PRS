@@ -64,7 +64,7 @@ div {
   padding-right: 23em;
 }
 
-#show_rules_button, #show_stats_button {
+#show_rules_button, #show_stats_button, #show_about_button {
   text-decoration: none;
   position: relative;
   left: -5px;
