@@ -52,6 +52,11 @@ div {
   text-align: center;
 }
 
+#enter_psw_input {
+  position: relative;
+  left: -2px;
+}
+
 #player_image {
   padding-top: 3em;
   float: left;
