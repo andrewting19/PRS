@@ -46,6 +46,10 @@ app.get('/rules', function(request, response){
 });
 
 app.get('/stats', function(request, response){
+  //load csv
+  var users_file = fs.readFileSync("data/users.csv", "utf8");
+  console.log(users_file);
+  //parse csv
   response.status(200);
   response.setHeader('Content-Type', 'text/html')
   response.render('stats');
