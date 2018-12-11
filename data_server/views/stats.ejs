@@ -9,34 +9,27 @@
 
   <div id="stats">
     <h2>Stats- ____ games played</h2>
-    <table>
+    <table class = "cinereousTable">
       <tr>
         <th class="top_row">Player Name</th>
-        <th class="top_row">Paper %</th>
-        <th class="top_row">Rock %</th>
-        <th class="top_row">Scissors %</th>
-        <th class="top_row">Wins %</th>
+        <th class="top_row">Games Played %</th>
+        <th class="top_row">Wins </th>
+        <th class="top_row">Losses </th>
       </tr>
-      <tr>
-        <th><span class="player_name_span"></span>  </th>
-        <td> </td>
-        <td> </td>
-        <td> </td>
-        <td> </td>
-      </tr>
-      <tr>
-        <th> B(r)owser </th>
-        <td> </td>
-        <td> </td>
-        <td> </td>
-        <td> </td>
-      </tr>
+      <%for(var i=0; i < user.length; i++){%>
+        <tr>
+        <td><span class="player_name_span"><%=user[i].name%></span></td>
+        <td> <%=user[i].total_games%></td>
+        <td> <%=user[i].wins%></td>
+        <td> <%=user[i].losses%></td>
+        </tr>
+      <%}%>
     </table>
   </div>
 
   <footer>
     Brought to you by the cool kids of Software Engineering - Fall, 2018.
   </footer>
-  <script src="scripts/scripts.js"></script>
+  <!-- <script src="scripts/scripts.js"></script> -->
  </body>
 </html>
