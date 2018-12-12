@@ -1,3 +1,3 @@
-user_name,total_games,wins,losses,rock,paper,scissors
-ayesha,0,0,0,0,0,0
-sadi,0,0,0,0,0,0
+user_name,user_pswd,total_games,wins,losses,rock,paper,scissors
+ayesha,help,0,0,0,0,0,0
+sadi,help,0,0,0,0,0,0

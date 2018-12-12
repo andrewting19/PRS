@@ -15,6 +15,10 @@
         <th class="top_row">Games Played %</th>
         <th class="top_row">Wins </th>
         <th class="top_row">Losses </th>
+        <th class="top_row">Win Rate</th>
+        <th class="top_row">Rock %</th>
+        <th class="top_row">Paper %</th>
+        <th class="top_row">Scissors %</th>
       </tr>
       <%for(var i=0; i < user.length; i++){%>
         <tr>
@@ -22,6 +26,10 @@
         <td> <%=user[i].total_games%></td>
         <td> <%=user[i].wins%></td>
         <td> <%=user[i].losses%></td>
+        <td> <%=(user[i].wins-user[i].losses)/(user[i].wins)%></td>
+        <td> <%=user[i].rock%></td>
+        <td> <%=user[i].paper%></td>
+        <td> <%=user[i].scissors%></td>
         </tr>
       <%}%>
     </table>

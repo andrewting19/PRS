@@ -99,6 +99,7 @@ footer {
 table.cinereousTable {
   border: 7px solid #090F94;
   background-color: #FFE3C6;
+  color: black;
   width: 100%;
   text-align: center;
 }
