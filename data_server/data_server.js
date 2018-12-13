@@ -21,7 +21,9 @@ app.get('/', function(request, response){
 app.get('/login', function(request, response){
   var user_data={};
   user_data["name"] = request.query.player_name;
+  user_data["pswd"] = request.query.pswd;
   var csv_data = loadCSV();
+  console.log(csv_data);
   for (var i = 0; i < csv_data.length; i++) {
     if (csv_data[i].name == user_data["name"]) {
       if (csv_data[i].pswd == request.query.pswd) {
@@ -29,7 +31,15 @@ app.get('/login', function(request, response){
         response.setHeader('Content-Type', 'text/html')
         response.render('game', {user:user_data});
         break;
+      } else {
+        response.status(200);
+        response.setHeader('Content-Type', 'text/html')
+        response.render('index', {user:user_data});
       }
+    } else {
+        newUser(user_data);
+        csv_data.push(user_data);
+        upLoadCSV(csv_data);
     }
   }
   response.status(200);
@@ -69,10 +79,10 @@ app.get('/about', function(request, response){
 function loadCSV() {
   var users_file = fs.readFileSync("data/users.csv", "utf8");
   //parse csv
-  var rows = users_file.split('\r\n');
+  var rows = users_file.split('\n');
   console.log(rows);
   var user_data = [];
-  for(var i = 1; i < rows.length; i++) {
+  for(var i = 0; i < rows.length; i++) {
       var user_d = rows[i].trim().split(",");
       var user = {};
       user["name"] = user_d[0];
@@ -86,4 +96,32 @@ function loadCSV() {
       user_data.push(user);
   }
   return user_data;
+}
+
+function newUser(user_data) {
+  user_data["games"] =0;
+  user_data["total_games"] =0;
+  user_data["wins"] =0;
+  user_data["losses"] =0;
+  user_data["rock"] =0;
+  user_data["paper"] =0;
+  user_data["scissors"] = 0;
+}
+
+function upLoadCSV(user_data) {
+  console.log(user_data);
+  var out="";
+  for (var i = 0; i < user_data.length; i++) {
+    arr=Object.keys(user_data[i]);
+    for (var k=0;k<arr.length;k++){
+      if(k == arr.length-1) {
+        out+=user_data[i][arr[k]];
+      } else {
+        out+=user_data[i][arr[k]]+",";
+      }
+    }
+    out+="\n";
+  }
+  console.log(out);
+  fs.writeFileSync("data/users.csv", out, "utf8")
 }
