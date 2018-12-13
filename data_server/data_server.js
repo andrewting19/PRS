@@ -24,29 +24,35 @@ app.get('/login', function(request, response){
   user_data["pswd"] = request.query.pswd;
   var csv_data = loadCSV();
   console.log(csv_data);
-  for (var i = 0; i < csv_data.length; i++) {
+    if (!findUser(user_data,csv_data,request,response)){
+        newUser(user_data);
+        csv_data.push(user_data);
+        upLoadCSV(csv_data);
+    }
+  response.status(200);
+  response.setHeader('Content-Type', 'text/html')
+  response.render('index');
+});
+function findUser(user_data,csv_data,request,response){
+    for (var i = 0; i < csv_data.length; i++) {
     if (csv_data[i].name == user_data["name"]) {
       if (csv_data[i].pswd == request.query.pswd) {
         response.status(200);
         response.setHeader('Content-Type', 'text/html')
         response.render('game', {user:user_data});
+        return true;
         break;
       } else {
         response.status(200);
         response.setHeader('Content-Type', 'text/html')
         response.render('index', {user:user_data});
+        return true;
+        break;
       }
-    } else {
-        newUser(user_data);
-        csv_data.push(user_data);
-        upLoadCSV(csv_data);
     }
   }
-  response.status(200);
-  response.setHeader('Content-Type', 'text/html')
-  response.render('index');
-});
-
+    return false;
+}
 app.get('/:user/results', function(request, response){
   var user_data={
       name: request.params.user,
@@ -120,7 +126,10 @@ function upLoadCSV(user_data) {
         out+=user_data[i][arr[k]]+",";
       }
     }
-    out+="\n";
+    if (i!=user_data.length-1){
+        out+="\n";
+    }
+    
   }
   console.log(out);
   fs.writeFileSync("data/users.csv", out, "utf8")
