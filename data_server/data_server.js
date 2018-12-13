@@ -77,12 +77,12 @@ function loadCSV() {
       var user = {};
       user["name"] = user_d[0];
       user["pswd"] = user_d[1];
-      user["total_games"] = user_d[2];
-      user["wins"] = user_d[3];
-      user["losses"] = user_d[4];
-      user["rock"] = user_d[5];
-      user["paper"] = user_d[6];
-      user["scissors"] = user_d[7];
+      user["total_games"] = parseInt(user_d[2]);
+      user["wins"] = parseInt(user_d[3]);
+      user["losses"] = parseInt(user_d[4]);
+      user["rock"] = parseFloat(user_d[5]);
+      user["paper"] = parseFloat(user_d[6]);
+      user["scissors"] = parseFloat(user_d[7]);
       user_data.push(user);
   }
   return user_data;
