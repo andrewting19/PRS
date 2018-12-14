@@ -13,9 +13,10 @@ app.listen(port, function(){
 });
 
 app.get('/', function(request, response){
+  var user_data={};
   response.status(200);
   response.setHeader('Content-Type', 'text/html')
-  response.render('index');
+  response.render('index', {user:user_data});
 });
 
 app.get('/login', function(request, response){
@@ -126,6 +127,7 @@ function findUser(user_data,csv_data,request,response){
         return true;
         break;
       } else {
+        user_data["failure"] = 4;
         response.status(200);
         response.setHeader('Content-Type', 'text/html')
         response.render('index', {user:user_data});
