@@ -138,6 +138,10 @@ function findUser(user_data,csv_data,request,response){
   }
     return false;
 }
+
 function handleThrow(userWeapon, villain){
     // choose the villain image
+
+    //  $("#player_image").attr("src", "imgs/player_"+possible_choices[player_choice-1]+".png");
+    //  $("#npc_image").attr("src", "imgs/npc_"+possible_choices[npc_choice-1]+".jpeg");
 }
