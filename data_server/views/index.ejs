@@ -9,8 +9,10 @@
   <% include global/header %>
 
 
-  <div id="feedback">
-    <%if (user.failure === 4){%>
+  <div id="feedback" class = "<%if (user.failure === 4){%> negative <%}%>">
+    <%if (user.failure === 4){
+
+      %>
       <p>Wrong Password</p>
     <%}%>
   </div>
