@@ -138,3 +138,6 @@ function findUser(user_data,csv_data,request,response){
   }
     return false;
 }
+function handleThrow(userWeapon, villain){
+    // choose the villain image
+}
