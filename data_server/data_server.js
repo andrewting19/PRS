@@ -2,6 +2,8 @@ var express = require('express');
 var fs = require('fs');
 var favicon = require('serve-favicon');
 var app = express();
+var villainPrevious=randomChoice();
+var userPrevious=randomChoice();
 app.use(express.static('public'));
 app.set('views', __dirname + '/views');
 app.set('view engine', 'ejs');
@@ -144,7 +146,7 @@ function findUser(user_data,csv_data,request,response){
 
 function handleThrow(userWeapon, villain){
 
-    var villainWeapon=villainStrategies(villain,localStorage.getItem("villainPrevious"),localStorage.getItem("userPrevious",userWeapon));
+    var villainWeapon=villainStrategies(villain,villainPrevious,userPrevious,userWeapon));
     switch(userWeapon){
         case winAgainst(villainWeapon):
             return("won");
@@ -153,15 +155,16 @@ function handleThrow(userWeapon, villain){
         case villainWeapon:
             return("drew");
     }
-    localStorage.setItem("villainPrevious",villainWeapon);
-    localStorage.setItem("userPrevious",userWeapon);
+    villainPrevious=villainWeapon;
+    userPrevious=userWeapon;
 }
-
+function randomChoice(){
+    var choices=["rock","paper","scissors"];
+    return choices[(int)(3*Math.random())];
+}
 function villainStrategies(villain,villainPrevious,userPrevious,userCurrent){
     var rand=Math.random();
-    var choices=["rock","paper","scissors"];
-    var choice=choices[(int)(3*Math.random())];
-
+    var choice=randomChoice();
     switch(villain){
         case "bones":
             if (rand>0.5)
