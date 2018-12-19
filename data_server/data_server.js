@@ -42,6 +42,7 @@ app.get('/:user/results', function(request, response){
       villain: request.query.villains
   };//send more stuff under user data
   user_data["result"] = handleThrow(user_data.weapon, user_data.villain);
+  user_data["response"] = localStorage.getItem("villainPrevious");
   response.status(200);
   response.setHeader('Content-Type', 'text/html')
   response.render('results',{user:user_data});
@@ -143,7 +144,7 @@ function findUser(user_data,csv_data,request,response){
 
 function handleThrow(userWeapon, villain){
 
-    var villainWeapon=villainStrategies(villain,localStorage.getItem("villainPrevious"),localStorage.getItem("userPrevious",userWeapon);
+    var villainWeapon=villainStrategies(villain,localStorage.getItem("villainPrevious"),localStorage.getItem("userPrevious",userWeapon));
     switch(userWeapon){
         case winAgainst(villainWeapon):
             return("won");
@@ -151,8 +152,6 @@ function handleThrow(userWeapon, villain){
             return("lost");
         case villainWeapon:
             return("drew");
-        case default:
-            return("participation trophy")
     }
     localStorage.setItem("villainPrevious",villainWeapon);
     localStorage.setItem("userPrevious",userWeapon);
@@ -160,7 +159,7 @@ function handleThrow(userWeapon, villain){
 
 function villainStrategies(villain,villainPrevious,userPrevious,userCurrent){
     var rand=Math.random();
-    var choices={"rock","paper","scissors"};
+    var choices=["rock","paper","scissors"];
     var choice=choices[(int)(3*Math.random())];
 
     switch(villain){
@@ -208,11 +207,11 @@ function winAgainst(weapon){
         case "rock":
             return "paper";
         case "paper":
-            return "scissors":
+            return "scissors";
         case "scissors":
-            return "rock"
-        default:
-            return "Mjölnir"
+            return "rock";
+        /*default:
+            return "Mjölnir"*/
     }
 }
 function loseAgainst(weapon){
