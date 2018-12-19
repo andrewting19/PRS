@@ -38,8 +38,10 @@ app.get('/login', function(request, response){
 app.get('/:user/results', function(request, response){
   var user_data={
       name: request.params.user,
-      weapon: request.query.weapon
+      weapon: request.query.weapon,
+      villain: request.query.villains
   };//send more stuff under user data
+  user_data["result"] = handleThrow(user_data.weapon, user_data.villain);
   response.status(200);
   response.setHeader('Content-Type', 'text/html')
   response.render('results',{user:user_data});
@@ -140,35 +142,27 @@ function findUser(user_data,csv_data,request,response){
 }
 
 function handleThrow(userWeapon, villain){
-    
+
     var villainWeapon=villainStrategies(villain,localStorage.getItem("villainPrevious"),localStorage.getItem("userPrevious",userWeapon);
     switch(userWeapon){
         case winAgainst(villainWeapon):
-            return("win");
+            return("won");
         case loseAgainst(villainWeapon):
-            return("lose");
+            return("lost");
         case villainWeapon:
-            return("draw");
+            return("drew");
         case default:
             return("participation trophy")
     }
-        
-    
-    
-        
-    }
-    // choose the villain image
-
-    //  $("#player_image").attr("src", "imgs/player_"+possible_choices[player_choice-1]+".png");
-    //  $("#npc_image").attr("src", "imgs/npc_"+possible_choices[npc_choice-1]+".jpeg");
     localStorage.setItem("villainPrevious",villainWeapon);
     localStorage.setItem("userPrevious",userWeapon);
 }
+
 function villainStrategies(villain,villainPrevious,userPrevious,userCurrent){
     var rand=Math.random();
     var choices={"rock","paper","scissors"};
     var choice=choices[(int)(3*Math.random())];
-    
+
     switch(villain){
         case "bones":
             if (rand>0.5)
