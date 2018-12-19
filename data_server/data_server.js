@@ -140,8 +140,72 @@ function findUser(user_data,csv_data,request,response){
 }
 
 function handleThrow(userWeapon, villain){
+    
+    var villainWeapon=villainStrategies(localStorage.getItem("villainPrevious"),localStorage.getItem("userPrevious",userWeapon);
     // choose the villain image
 
     //  $("#player_image").attr("src", "imgs/player_"+possible_choices[player_choice-1]+".png");
     //  $("#npc_image").attr("src", "imgs/npc_"+possible_choices[npc_choice-1]+".jpeg");
+    localStorage.setItem("villainPrevious",villainWeapon);
+    localStorage.setItem("userPrevious",userWeapon);
+}
+function villainStrategies(villainPrevious,userPrevious,userCurrent){
+    var rand=Math.random();
+    var choices={"rock","paper","scissors"};
+    var choice=choices[(int)(3*Math.random())];
+    
+    switch(villain){
+        case "bones":
+            if (rand>0.5)
+                return choice;
+            else
+                return villainPrevious;
+        case "comic_hans":
+            if (rand>0.7)
+                return choice;
+            else
+                return loseAgainst(userCurrent)
+        case "gato":
+            return choice;
+        case "harry":
+            return choice;
+        case "manny":
+            return choice;
+        case "mickey":
+            if(rand>0.6)
+                return loseAgainst(villainPrevious);
+            else
+                return choice;
+        case "mr_modern":
+            if(rand>0.7)
+                return "rock";
+            else
+                return choice;
+        case "pixie":
+            return loseAgainst(userPrevious);
+        case "regal":
+            if (rand>0.4)
+                return winAgainst(userPrevious);
+            else
+                return winAgainst(userCurrent);
+        case "the_boss":
+            return winAgainst(userCurrent);
+        case "the_magician":
+            return choice;
+    }
+}
+function winAgainst(weapon){
+    switch(weapon){
+        case "rock":
+            return "paper";
+        case "paper":
+            return "scissors":
+        case "scissors":
+            return "rock"
+        default:
+            return "Mjölnir"
+    }
+}
+function loseAgainst(weapon){
+    return winAgainst(winAgainst(weapon));
 }
