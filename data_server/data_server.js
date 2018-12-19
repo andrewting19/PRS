@@ -141,7 +141,22 @@ function findUser(user_data,csv_data,request,response){
 
 function handleThrow(userWeapon, villain){
     
-    var villainWeapon=villainStrategies(localStorage.getItem("villainPrevious"),localStorage.getItem("userPrevious",userWeapon);
+    var villainWeapon=villainStrategies(villain,localStorage.getItem("villainPrevious"),localStorage.getItem("userPrevious",userWeapon);
+    switch(userWeapon){
+        case winAgainst(villainWeapon):
+            return("win");
+        case loseAgainst(villainWeapon):
+            return("lose");
+        case villainWeapon:
+            return("draw");
+        case default:
+            return("participation trophy")
+    }
+        
+    
+    
+        
+    }
     // choose the villain image
 
     //  $("#player_image").attr("src", "imgs/player_"+possible_choices[player_choice-1]+".png");
@@ -149,7 +164,7 @@ function handleThrow(userWeapon, villain){
     localStorage.setItem("villainPrevious",villainWeapon);
     localStorage.setItem("userPrevious",userWeapon);
 }
-function villainStrategies(villainPrevious,userPrevious,userCurrent){
+function villainStrategies(villain,villainPrevious,userPrevious,userCurrent){
     var rand=Math.random();
     var choices={"rock","paper","scissors"};
     var choice=choices[(int)(3*Math.random())];
