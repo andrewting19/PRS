@@ -44,7 +44,7 @@ app.get('/:user/results', function(request, response){
       villain: request.query.villains
   };//send more stuff under user data
   user_data["result"] = handleThrow(user_data.weapon, user_data.villain);
-  user_data["response"] = localStorage.getItem("villainPrevious");
+  user_data["response"] =villainPrevious;
   response.status(200);
   response.setHeader('Content-Type', 'text/html')
   response.render('results',{user:user_data});
