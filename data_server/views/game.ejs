@@ -3,6 +3,7 @@
 <head>
   <title>P,R,S - Game</title>
   <link rel="stylesheet" href="styles/style.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
  </head>
 
 <body>
@@ -22,7 +23,7 @@
           <option value="scissors">Scissors</option>
         </select><br>
         <br>
-        <select name="villain">
+        <select id = "villains" name="villain">
           <option value=" "> </option>
           <option value="bones">Bones</option>
           <option value="comic_hans">Comic Hans</option>
@@ -39,10 +40,18 @@
         </select>
         <button type = "submit" id="throw_choice_button">Throw Choice</button>
       </form>
+      <img id = "villain_img" src = ""></img>
     </div>
   <footer>
     Brought to you by the cool kids of Software Engineering - Fall, 2018.
   </footer>
   <script src="scripts/scripts.js"></script>
+  <script>
+  $("#villains").change(function(){
+    var villain = $( "#villains" ).val()
+    console.log(villain);
+    $("#villain_img").attr("src", "images/"+villain+"_waiting.svg");
+  });
+  </script>
  </body>
 </html>
