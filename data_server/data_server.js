@@ -146,7 +146,7 @@ function findUser(user_data,csv_data,request,response){
 
 function handleThrow(userWeapon, villain){
 
-    var villainWeapon=villainStrategies(villain,villainPrevious,userPrevious,userWeapon));
+    var villainWeapon=villainStrategies(villain,villainPrevious,userPrevious,userWeapon);
     switch(userWeapon){
         case winAgainst(villainWeapon):
             return("won");
@@ -160,7 +160,7 @@ function handleThrow(userWeapon, villain){
 }
 function randomChoice(){
     var choices=["rock","paper","scissors"];
-    return choices[(int)(3*Math.random())];
+    return choices[(3*Math.random())|0];
 }
 function villainStrategies(villain,villainPrevious,userPrevious,userCurrent){
     var rand=Math.random();
