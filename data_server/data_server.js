@@ -26,7 +26,7 @@ app.get('/login', function(request, response){
   user_data["name"] = request.query.player_name;
   user_data["pswd"] = request.query.pswd;
   var csv_data = loadCSV();
-  console.log(csv_data);
+  console.log(villainPrevious, userPrevious);
     if (!findUser(user_data,csv_data,request,response)){
         newUser(user_data);
         csv_data.push(user_data);
@@ -37,14 +37,15 @@ app.get('/login', function(request, response){
     }
 });
 
-app.get('/:user/results', function(request, response){
+app.get('/:user+results', function(request, response){
   var user_data={
       name: request.params.user,
       weapon: request.query.weapon,
-      villain: request.query.villains
+      villain: request.query.villain
   };//send more stuff under user data
   user_data["result"] = handleThrow(user_data.weapon, user_data.villain);
   user_data["response"] =villainPrevious;
+  console.log(user_data);
   response.status(200);
   response.setHeader('Content-Type', 'text/html')
   response.render('results',{user:user_data});
@@ -148,12 +149,12 @@ function handleThrow(userWeapon, villain){
 
     var villainWeapon=villainStrategies(villain,villainPrevious,userPrevious,userWeapon);
     switch(userWeapon){
+        case villainWeapon:
+          return("drew");
         case winAgainst(villainWeapon):
             return("won");
         case loseAgainst(villainWeapon):
             return("lost");
-        case villainWeapon:
-            return("drew");
     }
     villainPrevious=villainWeapon;
     userPrevious=userWeapon;
@@ -162,6 +163,7 @@ function randomChoice(){
     var choices=["rock","paper","scissors"];
     return choices[(3*Math.random())|0];
 }
+
 function villainStrategies(villain,villainPrevious,userPrevious,userCurrent){
     var rand=Math.random();
     var choice=randomChoice();
@@ -218,5 +220,14 @@ function winAgainst(weapon){
     }
 }
 function loseAgainst(weapon){
-    return winAgainst(winAgainst(weapon));
+  switch(weapon){
+      case "rock":
+          return "scissors";
+      case "paper":
+          return "rock";
+      case "scissors":
+          return "paper";
+      /*default:
+          return "Mjölnir"*/
+  }
 }
