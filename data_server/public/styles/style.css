@@ -58,17 +58,23 @@ div {
 }
 
 #player_image {
-  padding-top: 3em;
-  float: left;
-  padding-left: 23em;
-}
-
-#npc_image {
-  padding-top: 3em;
+  margin-top: -9em;
   float: right;
-  padding-right: 23em;
+  padding-right: 22em;
 }
 
+#villain_image {
+  margin-top: -7em;
+  float: left;
+  padding-left: 22em;
+}
+#game_results {
+  padding-bottom: 2em;
+}
+
+#playAgain {
+  margin-top: 1em;
+}
 #show_rules_button, #show_stats_button, #show_about_button {
   text-decoration: none;
   position: relative;

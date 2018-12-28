@@ -9,18 +9,16 @@
   <% include global/header %>
 
  <div id="game_results">
-     <img id="player_image" src="">
-     <img id="npc_image" src="">
-     <div id="ActualResults">
-       You <%=user.result%>!<br>
-       You threw <%=user.weapon%>!<br>
-       <%=user.villain%> threw <%=user.response%>!<br>
-    </div>
-
+    <p> You <%=user.result%>!</p>
+    <p> You threw <%=user.weapon%>!</p>
+    <p> <%=user.villain%> threw <%=user.response%>!</p>
     <form action="/login" method="get">
      <button type="submit" id="playAgain">Play again</button>
    </form>
-    </div>
+   <img id="villain_image" src="images/<%=user.villain%>_<%=user.response%>.svg">
+   <img id="player_image" src="images/player_<%=user.weapon%>.png">
+
+</div>
 
 
   <% include global/footer %>

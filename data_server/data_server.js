@@ -4,6 +4,7 @@ var favicon = require('serve-favicon');
 var app = express();
 var villainPrevious=randomChoice();
 var userPrevious=randomChoice();
+var villainWeapon;
 app.use(express.static('public'));
 app.set('views', __dirname + '/views');
 app.set('view engine', 'ejs');
@@ -26,7 +27,6 @@ app.get('/login', function(request, response){
   user_data["name"] = request.query.player_name;
   user_data["pswd"] = request.query.pswd;
   var csv_data = loadCSV();
-  console.log(villainPrevious, userPrevious);
     if (!findUser(user_data,csv_data,request,response)){
         newUser(user_data);
         csv_data.push(user_data);
@@ -44,7 +44,7 @@ app.get('/:user+results', function(request, response){
       villain: request.query.villain
   };//send more stuff under user data
   user_data["result"] = handleThrow(user_data.weapon, user_data.villain);
-  user_data["response"] =villainPrevious;
+  user_data["response"] =villainWeapon;
   console.log(user_data);
   response.status(200);
   response.setHeader('Content-Type', 'text/html')
@@ -74,7 +74,6 @@ function loadCSV() {
   var users_file = fs.readFileSync("data/users.csv", "utf8");
   //parse csv
   var rows = users_file.split('\n');
-  console.log(rows);
   var user_data = [];
   for(var i = 0; i < rows.length; i++) {
       var user_d = rows[i].trim().split(",");
@@ -93,7 +92,6 @@ function loadCSV() {
 }
 
 function upLoadCSV(user_data) {
-  console.log(user_data);
   var out="";
   for (var i = 0; i < user_data.length; i++) {
     arr=Object.keys(user_data[i]);
@@ -147,7 +145,8 @@ function findUser(user_data,csv_data,request,response){
 
 function handleThrow(userWeapon, villain){
 
-    var villainWeapon=villainStrategies(villain,villainPrevious,userPrevious,userWeapon);
+    villainWeapon=villainStrategies(villain,villainPrevious,userPrevious,userWeapon);
+    console.log(userWeapon, villainWeapon);
     switch(userWeapon){
         case villainWeapon:
           return("drew");
@@ -156,6 +155,8 @@ function handleThrow(userWeapon, villain){
         case loseAgainst(villainWeapon):
             return("lost");
     }
+
+    console.log(userWeapon, villainWeapon);
     villainPrevious=villainWeapon;
     userPrevious=userWeapon;
 }
@@ -168,42 +169,42 @@ function villainStrategies(villain,villainPrevious,userPrevious,userCurrent){
     var rand=Math.random();
     var choice=randomChoice();
     switch(villain){
-        case "bones":
+        case "Bones":
             if (rand>0.5)
                 return choice;
             else
                 return villainPrevious;
-        case "comic_hans":
+        case "Comic_Hans":
             if (rand>0.7)
                 return choice;
             else
                 return loseAgainst(userCurrent)
-        case "gato":
+        case "Gato":
             return choice;
-        case "harry":
+        case "Harry":
             return choice;
-        case "manny":
+        case "Manny":
             return choice;
-        case "mickey":
+        case "Mickey":
             if(rand>0.6)
                 return loseAgainst(villainPrevious);
             else
                 return choice;
-        case "mr_modern":
+        case "Mr_Modern":
             if(rand>0.7)
                 return "rock";
             else
                 return choice;
-        case "pixie":
+        case "Pixie":
             return loseAgainst(userPrevious);
-        case "regal":
+        case "Regal":
             if (rand>0.4)
                 return winAgainst(userPrevious);
             else
                 return winAgainst(userCurrent);
-        case "the_boss":
+        case "The_Boss":
             return winAgainst(userCurrent);
-        case "the_magician":
+        case "The_Magician":
             return choice;
     }
 }
