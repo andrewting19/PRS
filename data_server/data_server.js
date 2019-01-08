@@ -26,7 +26,7 @@ app.get('/login', function(request, response){
   var user_data={};
   user_data["name"] = request.query.player_name;
   user_data["pswd"] = request.query.pswd;
-  var csv_data = loadCSV();
+  var csv_data = loadCSV("data/users.csv");
     if (!findUser(user_data,csv_data,request,response)){
         newUser(user_data);
         csv_data.push(user_data);
@@ -37,7 +37,7 @@ app.get('/login', function(request, response){
     }
 });
 
-app.get('/:user+results', function(request, response){
+app.get('/:user/results', function(request, response){
   var user_data={
       name: request.params.user,
       weapon: request.query.weapon,
@@ -46,6 +46,21 @@ app.get('/:user+results', function(request, response){
   user_data["result"] = handleThrow(user_data.weapon, user_data.villain);
   user_data["response"] =villainWeapon;
   console.log(user_data);
+  var user_csv = loadCSV("data/users.csv");
+  console.log(user_data.name);
+  var user_d = user_csv[user_data.name];
+  console.log(user_d);
+  user_d[user_data.weapon] +=1;
+  user_d["total_games"]+=1;
+
+  switch(user_data["result"]){
+      case "won":
+          user_d.wins +=1;
+      case "lost":
+          user_d.losses +=1;
+  }
+
+  upLoadCSV(user_csv);
   response.status(200);
   response.setHeader('Content-Type', 'text/html')
   response.render('results',{user:user_data});
@@ -58,7 +73,7 @@ app.get('/rules', function(request, response){
 });
 
 app.get('/stats', function(request, response){
-  var user_data = loadCSV();
+  var user_data = loadCSV("data/users.csv");
   response.status(200);
   response.setHeader('Content-Type', 'text/html')
   response.render('stats', {user:user_data});
@@ -70,8 +85,8 @@ app.get('/about', function(request, response){
   response.render('about');
 });
 
-function loadCSV() {
-  var users_file = fs.readFileSync("data/users.csv", "utf8");
+function loadCSV(filename) {
+  var users_file = fs.readFileSync(filename, "utf8");
   //parse csv
   var rows = users_file.split('\n');
   var user_data = [];
@@ -86,8 +101,9 @@ function loadCSV() {
       user["rock"] = parseFloat(user_d[5]);
       user["paper"] = parseFloat(user_d[6]);
       user["scissors"] = parseFloat(user_d[7]);
-      user_data.push(user);
+      user_data[user_d[0]]=(user);
   }
+  console.log(user_data);
   return user_data;
 }
 
