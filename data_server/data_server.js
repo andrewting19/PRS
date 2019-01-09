@@ -28,11 +28,11 @@ app.get('/:user/playAgain', function(request, response){
      }
         response.status(200);
         response.setHeader('Content-Type', 'text/html')
-        response.render('..../game', {user:user_data});
+        response.render('game', {user:user_data});
 });
 app.get('/login', function(request, response){
   var user_data={};
-    
+
   user_data["name"] = request.query.player_name;
   user_data["pswd"] = request.query.pswd;
   var csv_data = loadCSV("data/users.csv");

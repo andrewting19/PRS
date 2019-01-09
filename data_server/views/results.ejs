@@ -12,7 +12,7 @@
     <p> You <%=user.result%>!</p>
     <p> You threw <%=user.weapon%>!</p>
     <p> <%=user.villain%> threw <%=user.response%>!</p>
-    <form action="<%=user.name%>/playAgain" method="get">
+    <form action="../<%=user.name%>/playAgain" method="get">
      <button type="submit" id="playAgain">Play again</button>
    </form>
    <img id="villain_image" src="../images/<%=user.villain%>_<%=user.response%>.svg">
