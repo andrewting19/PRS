@@ -5,6 +5,7 @@ var app = express();
 var villainPrevious=randomChoice();
 var userPrevious=randomChoice();
 var villainWeapon;
+
 app.use(express.static('public'));
 app.set('views', __dirname + '/views');
 app.set('view engine', 'ejs');
@@ -21,9 +22,17 @@ app.get('/', function(request, response){
   response.setHeader('Content-Type', 'text/html')
   response.render('index', {user:user_data});
 });
-
+app.get('/:user/playAgain', function(request, response){
+     var user_data={
+      name: request.params.user
+     }
+        response.status(200);
+        response.setHeader('Content-Type', 'text/html')
+        response.render('..../game', {user:user_data});
+});
 app.get('/login', function(request, response){
   var user_data={};
+    
   user_data["name"] = request.query.player_name;
   user_data["pswd"] = request.query.pswd;
   var csv_data = loadCSV("data/users.csv");
