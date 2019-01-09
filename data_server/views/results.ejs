@@ -12,9 +12,12 @@
     <p> You <%=user.result%>!</p>
     <p> You threw <%=user.weapon%>!</p>
     <p> <%=user.villain%> threw <%=user.response%>!</p>
-    <form action="../<%=user.name%>/playAgain" method="get">
-     <button type="submit" id="playAgain">Play again</button>
-   </form>
+     <form action="/playAgain" method="get">
+      Please enter your name and password <br><br>
+      Name: <input type="text" id="enter_name_input" name="player_name"><br>
+      PSWD: <input type="password" id="enter_psw_input" name="pswd"><br><br>
+      <button type="submit" id = "enter_name_button">Submit Name</button>
+    </form>
    <img id="villain_image" src="../images/<%=user.villain%>_<%=user.response%>.svg">
    <img id="player_image" src="../images/player_<%=user.weapon%>.png">
 

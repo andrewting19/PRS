@@ -22,13 +22,27 @@ app.get('/', function(request, response){
   response.setHeader('Content-Type', 'text/html')
   response.render('index', {user:user_data});
 });
-app.get('/:user/playAgain', function(request, response){
-     var user_data={
-      name: request.params.user
-     }
+app.get('/playAgain', function(request, response){
+    var user_data={};
+
+  user_data["name"] = request.query.player_name;
+  user_data["pswd"] = request.query.pswd;
+  var csv_data = loadCSV("data/users.csv");
+    if (!findUser(user_data,csv_data,request,response)){
+        newUser(user_data);
+        csv_data.push(user_data);
+        upLoadCSV(csv_data);
         response.status(200);
         response.setHeader('Content-Type', 'text/html')
         response.render('game', {user:user_data});
+    }/*
+      var user_data={};
+
+  user_data["name"] = request.params.user;
+  user_data["pswd"] = request.params.pswd;
+        response.status(200);
+        response.setHeader('Content-Type', 'text/html')
+        response.render('game', {user:user_data});*/
 });
 app.get('/login', function(request, response){
   var user_data={};
