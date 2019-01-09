@@ -2,9 +2,12 @@ var express = require('express');
 var fs = require('fs');
 var favicon = require('serve-favicon');
 var app = express();
+
 var villainPrevious=randomChoice();
 var userPrevious=randomChoice();
 var villainWeapon;
+var userName;
+var userPSWD;
 
 app.use(express.static('public'));
 app.set('views', __dirname + '/views');
@@ -22,33 +25,13 @@ app.get('/', function(request, response){
   response.setHeader('Content-Type', 'text/html')
   response.render('index', {user:user_data});
 });
-app.get('/playAgain', function(request, response){
-    var user_data={};
 
-  user_data["name"] = request.query.player_name;
-  user_data["pswd"] = request.query.pswd;
-  var csv_data = loadCSV("data/users.csv");
-    if (!findUser(user_data,csv_data,request,response)){
-        newUser(user_data);
-        csv_data.push(user_data);
-        upLoadCSV(csv_data);
-        response.status(200);
-        response.setHeader('Content-Type', 'text/html')
-        response.render('game', {user:user_data});
-    }/*
-      var user_data={};
-
-  user_data["name"] = request.params.user;
-  user_data["pswd"] = request.params.pswd;
-        response.status(200);
-        response.setHeader('Content-Type', 'text/html')
-        response.render('game', {user:user_data});*/
-});
 app.get('/login', function(request, response){
   var user_data={};
-
   user_data["name"] = request.query.player_name;
   user_data["pswd"] = request.query.pswd;
+  userName = user_data["name"];
+  userPSWD = user_data["pswd"];
   var csv_data = loadCSV("data/users.csv");
     if (!findUser(user_data,csv_data,request,response)){
         newUser(user_data);
@@ -68,25 +51,40 @@ app.get('/:user/results', function(request, response){
   };//send more stuff under user data
   user_data["result"] = handleThrow(user_data.weapon, user_data.villain);
   user_data["response"] =villainWeapon;
-  console.log(user_data);
+
   var user_csv = loadCSV("data/users.csv");
-  console.log(user_data.name);
-  var user_d = user_csv[user_data.name];
-  console.log(user_d);
-  user_d[user_data.weapon] +=1;
-  user_d["total_games"]+=1;
-
-  switch(user_data["result"]){
-      case "won":
-          user_d.wins +=1;
-      case "lost":
-          user_d.losses +=1;
+  for (var i = 0; i < user_csv.length; i++) {
+    if (user_csv[i]["name"] == user_data.name) {
+      user_csv[i][user_data.weapon] +=1;
+      user_csv[i]["total_games"]+=1;
+      switch(user_data["result"]){
+          case "won":
+              user_csv[i]["wins"] +=1;
+          case "lost":
+              user_csv[i]["losses"] +=1;
+      }
+    }
   }
-
   upLoadCSV(user_csv);
   response.status(200);
   response.setHeader('Content-Type', 'text/html')
   response.render('results',{user:user_data});
+});
+
+app.get('/playAgain', function(request, response){
+    var user_data={};
+    user_data["name"] = userName;
+    user_data["pswd"] = userPSWD;
+    console.log(userName, userPSWD);
+    var csv_data = loadCSV("data/users.csv");
+    if (!findUser(user_data,csv_data,request,response)){
+        newUser(user_data);
+        csv_data.push(user_data);
+        upLoadCSV(csv_data);
+        response.status(200);
+        response.setHeader('Content-Type', 'text/html')
+        response.render('game', {user:user_data});
+    }
 });
 
 app.get('/rules', function(request, response){
@@ -124,9 +122,8 @@ function loadCSV(filename) {
       user["rock"] = parseFloat(user_d[5]);
       user["paper"] = parseFloat(user_d[6]);
       user["scissors"] = parseFloat(user_d[7]);
-      user_data[user_d[0]]=(user);
+      user_data.push(user);
   }
-  console.log(user_data);
   return user_data;
 }
 
@@ -163,7 +160,7 @@ function newUser(user_data) {
 function findUser(user_data,csv_data,request,response){
     for (var i = 0; i < csv_data.length; i++) {
     if (csv_data[i].name == user_data["name"]) {
-      if (csv_data[i].pswd == request.query.pswd) {
+      if (csv_data[i].pswd == user_data["pswd"]) {
         response.status(200);
         response.setHeader('Content-Type', 'text/html')
         response.render('game', {user:user_data});
@@ -183,9 +180,7 @@ function findUser(user_data,csv_data,request,response){
 }
 
 function handleThrow(userWeapon, villain){
-
     villainWeapon=villainStrategies(villain,villainPrevious,userPrevious,userWeapon);
-    console.log(userWeapon, villainWeapon);
     switch(userWeapon){
         case villainWeapon:
           return("drew");
@@ -194,8 +189,6 @@ function handleThrow(userWeapon, villain){
         case loseAgainst(villainWeapon):
             return("lost");
     }
-
-    console.log(userWeapon, villainWeapon);
     villainPrevious=villainWeapon;
     userPrevious=userWeapon;
 }

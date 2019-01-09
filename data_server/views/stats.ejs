@@ -8,7 +8,7 @@
   <% include global/header %>
 
   <div id="stats">
-    <h2>Stats- ____ games played</h2>
+    <h2>Stats</h2>
     <table class = "cinereousTable">
       <tr>
         <th class="top_row">Player Name</th>
@@ -20,7 +20,7 @@
         <th class="top_row">Paper %</th>
         <th class="top_row">Scissors %</th>
       </tr>
-      <%for(var i=0; i < user.length; i++){%>
+      <%for(var i=1; i < user.length; i++){%>
         <tr>
         <td><span class="player_name_span"><%=user[i].name%></span></td>
         <td> <%=user[i].total_games%></td>
