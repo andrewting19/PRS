@@ -24,6 +24,8 @@ app.get('/', function(request, response){
   response.status(200);
   response.setHeader('Content-Type', 'text/html')
   response.render('index', {user:user_data});
+  userName = "";
+  userPSWD = "";
 });
 
 app.get('/login', function(request, response){
@@ -36,7 +38,7 @@ app.get('/login', function(request, response){
     if (!findUser(user_data,csv_data,request,response)){
         newUser(user_data);
         csv_data.push(user_data);
-        upLoadCSV(csv_data);
+        upLoadCSV(csv_data, "data/users.csv");
         response.status(200);
         response.setHeader('Content-Type', 'text/html')
         response.render('game', {user:user_data});
@@ -65,7 +67,22 @@ app.get('/:user/results', function(request, response){
       }
     }
   }
-  upLoadCSV(user_csv);
+  upLoadCSV(user_csv, "data/users.csv");
+
+  var villains_csv = loadCSV("data/villains.csv");
+  for (var i = 0; i < villains_csv.length; i++) {
+    if (villains_csv[i]["name"] == user_data.villain) {
+      villains_csv[i][user_data.response] +=1;
+      villains_csv[i]["total_games"]+=1;
+      switch(user_data["result"]){
+          case "lost":
+              villains_csv[i]["wins"] +=1;
+          case "won":
+              villains_csv[i]["losses"] +=1;
+      }
+    }
+  }
+  upLoadCSV(villains_csv, "data/villains.csv");
   response.status(200);
   response.setHeader('Content-Type', 'text/html')
   response.render('results',{user:user_data});
@@ -80,7 +97,7 @@ app.get('/playAgain', function(request, response){
     if (!findUser(user_data,csv_data,request,response)){
         newUser(user_data);
         csv_data.push(user_data);
-        upLoadCSV(csv_data);
+        upLoadCSV(csv_data, "data/users.csv");
         response.status(200);
         response.setHeader('Content-Type', 'text/html')
         response.render('game', {user:user_data});
@@ -95,9 +112,13 @@ app.get('/rules', function(request, response){
 
 app.get('/stats', function(request, response){
   var user_data = loadCSV("data/users.csv");
+  var villain_data = loadCSV("data/villains.csv")
+  var data = {};
+  data["player"] = user_data;
+  data["villain"] = villain_data
   response.status(200);
   response.setHeader('Content-Type', 'text/html')
-  response.render('stats', {user:user_data});
+  response.render('stats', {user:data});
 });
 
 app.get('/about', function(request, response){
@@ -114,20 +135,31 @@ function loadCSV(filename) {
   for(var i = 0; i < rows.length; i++) {
       var user_d = rows[i].trim().split(",");
       var user = {};
-      user["name"] = user_d[0];
-      user["pswd"] = user_d[1];
-      user["total_games"] = parseInt(user_d[2]);
-      user["wins"] = parseInt(user_d[3]);
-      user["losses"] = parseInt(user_d[4]);
-      user["rock"] = parseFloat(user_d[5]);
-      user["paper"] = parseFloat(user_d[6]);
-      user["scissors"] = parseFloat(user_d[7]);
-      user_data.push(user);
+      if (filename == "data/users.csv") {
+        user["name"] = user_d[0];
+        user["pswd"] = user_d[1];
+        user["total_games"] = parseInt(user_d[2]);
+        user["wins"] = parseInt(user_d[3]);
+        user["losses"] = parseInt(user_d[4]);
+        user["rock"] = parseFloat(user_d[5]);
+        user["paper"] = parseFloat(user_d[6]);
+        user["scissors"] = parseFloat(user_d[7]);
+        user_data.push(user);
+      } else if (filename == "data/villains.csv") {
+        user["name"] = user_d[0];
+        user["total_games"] = parseInt(user_d[1]);
+        user["wins"] = parseInt(user_d[2]);
+        user["losses"] = parseInt(user_d[3]);
+        user["rock"] = parseFloat(user_d[4]);
+        user["paper"] = parseFloat(user_d[5]);
+        user["scissors"] = parseFloat(user_d[6]);
+        user_data.push(user);
+      }
   }
   return user_data;
 }
 
-function upLoadCSV(user_data) {
+function upLoadCSV(user_data, file_name) {
   var out="";
   for (var i = 0; i < user_data.length; i++) {
     arr=Object.keys(user_data[i]);
@@ -144,7 +176,7 @@ function upLoadCSV(user_data) {
 
   }
   console.log(out);
-  fs.writeFileSync("data/users.csv", out, "utf8")
+  fs.writeFileSync(file_name, out, "utf8")
 }
 
 function newUser(user_data) {
@@ -237,6 +269,8 @@ function villainStrategies(villain,villainPrevious,userPrevious,userCurrent){
         case "The_Boss":
             return winAgainst(userCurrent);
         case "The_Magician":
+            return choice;
+        case "Spock":
             return choice;
     }
 }
