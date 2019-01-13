@@ -27,7 +27,7 @@
         <td> <%=user["player"][i].total_games%></td>
         <td> <%=user["player"][i].wins%></td>
         <td> <%=user["player"][i].losses%></td>
-        <td> <%=(user["player"][i].wins/(user["player"][i].total_games))%></td>
+        <td> <%=Math.round((user["player"][i].wins/(user["player"][i].total_games))*100)/100%></td>
         <td> <%=((user["player"][i].rock)/(user["player"][i].total_games))*100%></td>
         <td> <%=((user["player"][i].paper)/(user["player"][i].total_games))*100%></td>
         <td> <%=((user["player"][i].scissors)/(user["player"][i].total_games))*100%></td>
@@ -54,7 +54,7 @@
         <td> <%=user["villain"][i].total_games%></td>
         <td> <%=user["villain"][i].wins%></td>
         <td> <%=user["villain"][i].losses%></td>
-        <td> <%=(user["villain"][i].wins/(user["villain"][i].total_games))%></td>
+        <td> <%=Math.round((user["villain"][i].wins/(user["villain"][i].total_games))*100)/100%></td>
         <td> <%=((user["villain"][i].rock)/(user["villain"][i].total_games))*100%></td>
         <td> <%=((user["villain"][i].paper)/(user["villain"][i].total_games))*100%></td>
         <td> <%=((user["villain"][i].scissors)/(user["villain"][i].total_games))*100%></td>
