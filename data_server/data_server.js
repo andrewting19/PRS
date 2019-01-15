@@ -133,10 +133,11 @@ app.get('/about', function(request, response){
 
 function loadCSV(filename) {
   var users_file = fs.readFileSync(filename, "utf8");
+  console.log(users_file);
   //parse csv
   var rows = users_file.split('\n');
   var user_data = [];
-  for(var i = 0; i < rows.length; i++) {
+  for(var i = 0; i < rows.length-1; i++) {
       var user_d = rows[i].trim().split(",");
       var user = {};
       if (filename == "data/users.csv") {
