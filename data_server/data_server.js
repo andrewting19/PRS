@@ -137,7 +137,7 @@ function loadCSV(filename) {
   //parse csv
   var rows = users_file.split('\n');
   var user_data = [];
-  for(var i = 0; i < rows.length-1; i++) {
+  for(var i = 0; i < rows.length; i++) {
       var user_d = rows[i].trim().split(",");
       var user = {};
       if (filename == "data/users.csv") {
