@@ -62,8 +62,10 @@ app.get('/:user/results', function(request, response){
       switch(user_data["result"]){
           case "won":
               user_csv[i]["wins"] +=1;
+              break;
           case "lost":
               user_csv[i]["losses"] +=1;
+              break;
       }
     }
   }
@@ -77,8 +79,10 @@ app.get('/:user/results', function(request, response){
       switch(user_data["result"]){
           case "lost":
               villains_csv[i]["wins"] +=1;
+              break;
           case "won":
               villains_csv[i]["losses"] +=1;
+              break;
       }
     }
   }
