@@ -174,7 +174,22 @@ function loadCSV(filename) {
 
 function upLoadCSV(user_data, file_name) {
   var out="";
-    user_data.sort(function(a,b){return (b.wins-a.wins)});
+  user_data.sort(function(a,b) {
+    var bPercent = 0;
+    if (b.total_games == 0) {
+      bPercent = 0;
+    } else {
+      bPercent =Math.round((b.wins/b.total_games)*100);
+    }
+    var aPercent = 0;
+    if (a.total_games == 0) {
+      aPercent = 0;
+    } else {
+      aPercent =Math.round((a.wins/a.total_games)*100);
+    }
+    console.log(bPercent);
+    return (bPercent-aPercent);
+  });
   for (var i = 0; i < user_data.length; i++) {
     arr=Object.keys(user_data[i]);
     for (var k=0;k<arr.length;k++){
@@ -189,7 +204,7 @@ function upLoadCSV(user_data, file_name) {
     }
 
   }
-  console.log(out);
+  // console.log(out);
   fs.writeFileSync(file_name, out, "utf8")
 }
 
