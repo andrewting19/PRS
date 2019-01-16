@@ -75,6 +75,7 @@ app.get('/:user/results', function(request, response){
       }
     }
   }
+    
   upLoadCSV(user_csv, "data/users.csv");
   var villains_csv = loadCSV("data/villains.csv");
   for (var i = 0; i < villains_csv.length; i++) {
@@ -91,6 +92,7 @@ app.get('/:user/results', function(request, response){
       }
     }
   }
+    
   upLoadCSV(villains_csv, "data/villains.csv");
   response.status(200);
   response.setHeader('Content-Type', 'text/html')
@@ -172,6 +174,7 @@ function loadCSV(filename) {
 
 function upLoadCSV(user_data, file_name) {
   var out="";
+    user_data.sort(function(a,b){return (b.wins-a.wins)});
   for (var i = 0; i < user_data.length; i++) {
     arr=Object.keys(user_data[i]);
     for (var k=0;k<arr.length;k++){
