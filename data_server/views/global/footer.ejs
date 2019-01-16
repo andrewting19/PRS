@@ -1,3 +1,10 @@
 <footer>
-  Brought to you by Sadi Gulcelik and Ayesha Ali - Fall, 2018.
+  <%if(page != "/") {%>
+    <form action="/" method="get">
+      <button type="submit" id = "log_out">
+      Log Out
+      </button>
+    </form>
+  <%}%>
+  <p>Brought to you by Sadi Gulcelik and Ayesha Ali - Fall, 2018.</p>
 </footer>

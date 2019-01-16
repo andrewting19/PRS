@@ -75,7 +75,7 @@ div {
 #playAgain {
   margin-top: 1em;
 }
-#show_rules_button, #show_stats_button, #show_about_button {
+#show_rules_button, #show_stats_button, #show_about_button, #log_out, #play_again {
   text-decoration: none;
   position: relative;
   left: -5px;
@@ -94,14 +94,14 @@ div {
 footer {
   background-color: #efefef;
   text-align: center;
-  height: 20px;
   padding: 5px;
   position: absolute;
   left: 0;
   right: 0;
   z-index: 150;
-  margin-top: 50px
+  margin-top: 50px;
 }
+
 table.cinereousTable {
   border: 7px solid #090F94;
   background-color: #FFE3C6;

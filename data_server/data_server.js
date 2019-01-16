@@ -23,7 +23,7 @@ app.get('/', function(request, response){
   var user_data={};
   response.status(200);
   response.setHeader('Content-Type', 'text/html')
-  response.render('index', {user:user_data});
+  response.render('index', {page:request.url, user:user_data});
   userName = "";
   userPSWD = "";
 });
@@ -38,7 +38,7 @@ app.get('/login', function(request, response){
     if (user_data["name"] == "") {
       response.status(200);
       response.setHeader('Content-Type', 'text/html')
-      response.render('index', {user:user_data});
+      response.render('index', {page:request.url, user:user_data});
     }
     
     if (!findUser(user_data,csv_data,request,response)){
@@ -47,7 +47,7 @@ app.get('/login', function(request, response){
         upLoadCSV(csv_data, "data/users.csv");
         response.status(200);
         response.setHeader('Content-Type', 'text/html')
-        response.render('game', {user:user_data});
+        response.render('game', {page:request.url, user:user_data});
     }
 });
 
@@ -94,7 +94,7 @@ app.get('/:user/results', function(request, response){
   upLoadCSV(villains_csv, "data/villains.csv");
   response.status(200);
   response.setHeader('Content-Type', 'text/html')
-  response.render('results',{user:user_data});
+  response.render('results',{page:request.url, user:user_data});
 });
 
 app.get('/playAgain', function(request, response){
@@ -103,20 +103,21 @@ app.get('/playAgain', function(request, response){
     user_data["pswd"] = userPSWD;
     console.log(userName, userPSWD);
     var csv_data = loadCSV("data/users.csv");
+    console.log(request.url);
     if (!findUser(user_data,csv_data,request,response)){
         newUser(user_data);
         csv_data.push(user_data);
         upLoadCSV(csv_data, "data/users.csv");
         response.status(200);
         response.setHeader('Content-Type', 'text/html')
-        response.render('game', {user:user_data});
+        response.render('game', {page:request.url, user:user_data});
     }
 });
 
 app.get('/rules', function(request, response){
   response.status(200);
   response.setHeader('Content-Type', 'text/html')
-  response.render('rules');
+  response.render('rules', {page:request.url});
 });
 
 app.get('/stats', function(request, response){
@@ -127,13 +128,13 @@ app.get('/stats', function(request, response){
   data["villain"] = villain_data
   response.status(200);
   response.setHeader('Content-Type', 'text/html')
-  response.render('stats', {user:data});
+  response.render('stats', {page:request.url, user:data});
 });
 
 app.get('/about', function(request, response){
   response.status(200);
   response.setHeader('Content-Type', 'text/html')
-  response.render('about');
+  response.render('about', {page:request.url});
 });
 
 function loadCSV(filename) {
@@ -205,14 +206,14 @@ function findUser(user_data,csv_data,request,response){
       if (csv_data[i].pswd == user_data["pswd"]) {
         response.status(200);
         response.setHeader('Content-Type', 'text/html')
-        response.render('game', {user:user_data});
+        response.render('game', {page:request.url, user:user_data});
         return true;
         break;
       } else {
         user_data["failure"] = 4;
         response.status(200);
         response.setHeader('Content-Type', 'text/html')
-        response.render('index', {user:user_data});
+        response.render('index', {page:request.url, user:user_data});
         return true;
         break;
       }

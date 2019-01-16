@@ -9,7 +9,9 @@
 <body>
   <% include global/header %>
 
-  <div id="feedback" class = "positive"> Successfully logged in!</div>
+  <div id="feedback" class = "positive">  <%if (page == "/playAgain?"){%>
+      Play the Game
+    <%} else {%>Successfully logged in!<%}%> </div>
   <div id="throw_choice">
       <h2>Play the Game</h2>
       <h4><%=user.name%> it's your turn to bust a move!</h4>
@@ -41,9 +43,7 @@
       </form>
       <img id = "villain_img" width = "200" height = "200" src = "">
     </div>
-  <footer>
-    Brought to you by the cool kids of Software Engineering - Fall, 2018.
-  </footer>
+  <% include global/footer %>
   <script src="scripts/scripts.js"></script>
   <script>
   $("#villains").change(function(){
