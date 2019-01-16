@@ -3,6 +3,7 @@
 <head>
   <title>P,R,S - Results</title>
   <link rel="stylesheet" href="../styles/style.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
  </head>
 
 <body>
@@ -15,9 +16,9 @@
     <form action="/playAgain" method="get">
       <button type="submit" id = "play_again">Play Again</button>
     </form>
-   <img width = "100vw" height = "100vh" id="villain_image" src="../images/<%=user.villain%>_<%=user.response%>.svg">
-   <img id="player_image" src="../images/player_<%=user.weapon%>.png">
-</div>
+    <object id = "villain_image" type="image/svg+xml" data="../images/<%=user.villain%>_<%=user.response%>.svg" width = "100vw" height = "100vh"></object>
+    <img id="player_image" src="../images/player_<%=user.weapon%>.png">
+  </div>
   <% include global/footer %>
   <script src="../scripts/scripts.js"></script>
  </body>

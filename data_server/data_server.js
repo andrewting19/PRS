@@ -70,12 +70,13 @@ app.get('/:user/results', function(request, response){
     }
   }
   upLoadCSV(user_csv, "data/users.csv");
-
   var villains_csv = loadCSV("data/villains.csv");
+  var villain_color = "";
   for (var i = 0; i < villains_csv.length; i++) {
     if (villains_csv[i]["name"] == user_data.villain) {
       villains_csv[i][user_data.response] +=1;
       villains_csv[i]["total_games"]+=1;
+      villain_color = villains_csv[i]["color"];
       switch(user_data["result"]){
           case "lost":
               villains_csv[i]["wins"] +=1;
@@ -87,6 +88,7 @@ app.get('/:user/results', function(request, response){
     }
   }
   upLoadCSV(villains_csv, "data/villains.csv");
+  user_data["color"] = villain_color;
   response.status(200);
   response.setHeader('Content-Type', 'text/html')
   response.render('results',{user:user_data});
@@ -158,6 +160,7 @@ function loadCSV(filename) {
         user["rock"] = parseFloat(user_d[4]);
         user["paper"] = parseFloat(user_d[5]);
         user["scissors"] = parseFloat(user_d[6]);
+        user["color"] = user_d[7];
         user_data.push(user);
       }
   }
