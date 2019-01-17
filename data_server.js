@@ -23,7 +23,11 @@ for (var k=0;k<svgNames.length;k++){
     var out=svgToEdit.split("fill");
     var output=out[0];
     for(var i=1;i<out.length;i++){
+<<<<<<< HEAD
         output+="fill:"+chosenColor+out[i].substring(out[i].indexOf('"'),out[i].length);
+=======
+        output+="fill:"+colors[Math.floor(Math.random()*colors.length)]+out[i].substring(out[i].indexOf("\""),out.length);
+>>>>>>> parent of 90a787e... onegood
     }
     fs.writeFileSync(svgName,output, "utf8");
     }
