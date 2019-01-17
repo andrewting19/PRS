@@ -77,7 +77,7 @@ app.get('/:user/results', function(request, response){
   user_data["result"] = handleThrow(user_data.weapon, user_data.villain);
   user_data["response"] =villainWeapon;
   fs.writeFileSync("data/villainPrevious.txt",villainWeapon,'utf8')
-  fs.writeFileSync("data/userPrevious.txt",userWeapon,'utf8')
+  fs.writeFileSync("data/userPrevious.txt",user_data.weapon,'utf8')
   
   var user_csv = loadCSV("data/users.csv");
   for (var i = 0; i < user_csv.length; i++) {
