@@ -48,8 +48,7 @@
   <script>
   $("#villains").change(function(){
     var villain = $( "#villains" ).val()
-    console.log(villain);
-    $("#villain_img").attr("src", "images/"+villain+"_waiting.svg");
+    $("#villain_img").attr("src", "images/"+villain.toLowerCase()+"_waiting.svg");
   });
   </script>
  </body>
