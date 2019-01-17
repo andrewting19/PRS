@@ -19,7 +19,7 @@ for (var k=0;k<allSvgs.length;k++){
     var out=svgToEdit.split("fill");
     var output=out[0];
     for(var i=1;i<out.length;i++){
-        output+="fill:"+colors[Math.floor(Math.random()*colors.length)]+out[i].substring(out[i].indexOf('"'),out.length);
+        output+="fill:"+colors[Math.floor(Math.random()*colors.length)]+out[i].substring(out[i].indexOf('"'),out[i].length);
     }
     fs.writeFileSync(svgName,output, "utf8");
     }
