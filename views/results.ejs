@@ -16,7 +16,7 @@
     <form action="/playAgain" method="get">
       <button type="submit" id = "play_again">Play Again</button>
     </form>
-    <object id = "villain_image" type="image/svg+xml" data="../images/<%=user.villain%>_<%=user.response%>.svg" width = "100vw" height = "100vh"></object>
+    <object id = "villain_image" type="image/svg+xml" data="../images/<%=user.villain.toLowerCase()%>_<%=user.response%>.svg" width = "100vw" height = "100vh"></object>
     <img id="player_image" src="../images/player_<%=user.weapon%>.png">
   </div>
   <% include global/footer %>
