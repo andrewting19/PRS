@@ -1,14 +1,17 @@
+//required packages
 var express = require('express');
 var fs = require('fs');
 var favicon = require('serve-favicon');
 var app = express();
 
+//variables for login and villain strategies
 var villainPrevious=randomChoice();
 var userPrevious=randomChoice();
 var villainWeapon;
 var userName;
 var userPSWD;
 
+//set up server
 app.use(express.static('public'));
 app.set('views', __dirname + '/views');
 app.set('view engine', 'ejs');
@@ -19,6 +22,7 @@ app.listen(port, function(){
   console.log('Server started at '+ new Date()+', on port ' + port+'!');
 });
 
+//first request, renders index
 app.get('/', function(request, response){
   var user_data={};
   userName = "";
@@ -28,38 +32,46 @@ app.get('/', function(request, response){
   response.render('index', {page:request.url, user:user_data, title:"Index"});
 });
 
+//login request; renders either index if password is wrong or game if new user created or correct login entered
 app.get('/login', function(request, response){
+  //set up data
   var user_data={};
   user_data["name"] = request.query.player_name;
   user_data["pswd"] = request.query.pswd;
   userName = user_data["name"];
   userPSWD = user_data["pswd"];
+  
+  //manage users in CSV
   var csv_data = loadCSV("data/users.csv");
-    if (user_data["name"] == "") {
+  if (user_data["name"] == "") {//if someone accidentally submits login w/o entering anything
+    response.status(200);
+    response.setHeader('Content-Type', 'text/html')
+    response.render('index', {page:request.url, user:user_data, title:"Index"});
+  }
+    
+  if (!findUser(user_data,csv_data,request,response)){ //if user isn't found in CSV
+      newUser(user_data); //create new user
+      csv_data.push(user_data);
+      upLoadCSV(csv_data, "data/users.csv");
       response.status(200);
       response.setHeader('Content-Type', 'text/html')
-      response.render('index', {page:request.url, user:user_data, title:"Index"});
-    }
-    
-    if (!findUser(user_data,csv_data,request,response)){
-        newUser(user_data);
-        csv_data.push(user_data);
-        upLoadCSV(csv_data, "data/users.csv");
-        response.status(200);
-        response.setHeader('Content-Type', 'text/html')
-        response.render('game', {page:request.url, user:user_data, title:"game"});
-    }
+      response.render('game', {page:request.url, user:user_data, title:"game"});
+  }
 });
 
+//request for throw choice
 app.get('/:user/results', function(request, response){
+  //set up data
   var user_data={
       name: request.params.user,
       weapon: request.query.weapon,
       villain: request.query.villain
-  };//send more stuff under user data
+  };
+  //send more stuff under user data once result calculated
   user_data["result"] = handleThrow(user_data.weapon, user_data.villain);
   user_data["response"] =villainWeapon;
 
+  //manage user CSV for games, wins, losses, and weapon used
   var user_csv = loadCSV("data/users.csv");
   for (var i = 0; i < user_csv.length; i++) {
     if (user_csv[i]["name"] == user_data.name) {
@@ -75,7 +87,8 @@ app.get('/:user/results', function(request, response){
       }
     }
   }
-    
+  
+  //manage villain CSV for games, wins, losses, and weapon used
   upLoadCSV(user_csv, "data/users.csv");
   var villains_csv = loadCSV("data/villains.csv");
   for (var i = 0; i < villains_csv.length; i++) {
@@ -92,18 +105,22 @@ app.get('/:user/results', function(request, response){
       }
     }
   }
-    
   upLoadCSV(villains_csv, "data/villains.csv");
+  
+  //render results
   response.status(200);
   response.setHeader('Content-Type', 'text/html')
   response.render('results',{page:request.url, user:user_data, title:"results"});
 });
 
+//request for when user wants to play again; basically exactly the same as the login request w/o having to log in again
 app.get('/playAgain', function(request, response){
+    //use the saved username and password which get reset when you return to login page
     var user_data={};
     user_data["name"] = userName;
     user_data["pswd"] = userPSWD;
     var csv_data = loadCSV("data/users.csv");
+    //if the saved username is 
     if (user_data["name"] == "") {
       response.status(200);
       response.setHeader('Content-Type', 'text/html')
