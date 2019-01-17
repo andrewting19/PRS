@@ -12,7 +12,7 @@
  <div id="game_results">
     <p> You <%=user.result%>!</p>
     <p> You threw <%=user.weapon%>!</p>
-    <p> <%=user.villain%> threw <%=user.response%>!</p>
+    <p> <%=user.villain.replace('_', ' ')%> threw <%=user.response%>!</p>
     <form action="/playAgain" method="get">
       <button type="submit" id = "play_again">Play Again</button>
     </form>
