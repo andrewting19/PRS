@@ -17,7 +17,7 @@ var svgExtensions=["_waiting","_rock","_scissors","_paper"];
 for (var k=0;k<svgNames.length;k++){
     chosenColor=colors[Math.floor(Math.random()*colors.length)]
     for (var j=0; j<svgExtensions.length;j++){
-    svgName=__dirname+"/public/images/"+svgNames[k]+svgExtensions[j]+".svg";
+      svgName=__dirname+"/public/images/"+svgNames[k]+svgExtensions[j]+".svg";
     if(!svgName.includes("regal_waiting")&&!svgName.includes("pixie_rock")&&!svgName.includes("the_boss_waiting")&&!svgName.includes("pixie_scissors")&&!svgName.includes("harry_waiting")){
     var svgToEdit=fs.readFileSync(svgName, "utf8");
     var out=svgToEdit.split("fill");
@@ -61,8 +61,6 @@ app.get('/login', function(request, response){
   user_data["pswd"] = request.query.pswd;
   userName = user_data["name"];
   userPSWD = user_data["pswd"];
-  
-  user_data.feedback="Successful log in. Play the game!";
   //manage users in CSV
   var csv_data = loadCSV("data/users.csv");
   if (user_data["name"] == "") {//if someone accidentally submits login w/o entering anything
@@ -71,7 +69,7 @@ app.get('/login', function(request, response){
     response.render('index', {page:request.url, user:user_data, title:"Index"});
   }
     
-  if (!findUser(user_data,csv_data,request,response)){ //if user isn't found in CSV
+  if (!findUser(user_data,csv_data,request,response, "logged in")){ //if user isn't found in CSV
       newUser(user_data); //create new user
       csv_data.push(user_data);
       upLoadCSV(csv_data, "data/users.csv");
@@ -144,26 +142,25 @@ app.get('/:user/results', function(request, response){
 
 //request for when user wants to play again; basically exactly the same as the login request w/o having to log in again
 app.get('/playAgain', function(request, response){
-    //use the saved username and password which get reset when you return to login page
+    //use the saved username and password which resets when you return to login page
     var user_data={};
     user_data["name"] = userName;
     user_data["pswd"] = userPSWD;
     var csv_data = loadCSV("data/users.csv");
-    //if the saved username is 
-    user_data.feedback="Play the game!";
+    //if the saved username is empty than return to index page
     if (user_data["name"] == "") {
       response.status(200);
       response.setHeader('Content-Type', 'text/html')
       response.render('index', {page:request.url, user:user_data, title:"Index"});
     }
     
-    if (!findUser(user_data,csv_data,request,response)){
+    if (!findUser(user_data,csv_data,request,response, "playGame")){
         newUser(user_data);
         csv_data.push(user_data);
         upLoadCSV(csv_data, "data/users.csv");
         response.status(200);
         response.setHeader('Content-Type', 'text/html')
-        response.render('game', {page:request.url, user:user_data, title:"game"});
+        response.render('game', {page:request.url, user:user_data, title:"playGame"});
     }
 });
 
@@ -275,13 +272,13 @@ function newUser(user_data) {
 }
 
 //checks to see if a user's login information correspond to an actual user
-function findUser(user_data,csv_data,request,response){
+function findUser(user_data,csv_data,request,response, titleN){
     for (var i = 0; i < csv_data.length; i++) {
     if (csv_data[i].name == user_data["name"]) {
       if (csv_data[i].pswd == user_data["pswd"]) {
         response.status(200);
         response.setHeader('Content-Type', 'text/html')
-        response.render('game', {page:request.url, user:user_data, title:"game"});
+        response.render('game', {page:request.url, user:user_data, title:titleN});
         return true;
         break;
       } else {
