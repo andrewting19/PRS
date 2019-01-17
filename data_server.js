@@ -14,7 +14,11 @@ var userPSWD;
 var svgNames=["the_boss","the_magician","harry","gato","bones","manny","comic_hans","mickey","pixie","regal","spock","mr_modern"];
 var colors=["red","blue","green","white","black","yellow","orange","purple"];
 var svgExtensions=["_waiting","_rock","_scissors","_paper"];
-for (var k=0;k<svgNames.length;k++){
+changeColors();
+
+//changes the colors of the svgs (currently called once only)
+function changeColors(){
+    for (var k=0;k<svgNames.length;k++){
     chosenColor=colors[Math.floor(Math.random()*colors.length)]
     for (var j=0; j<svgExtensions.length;j++){
       svgName=__dirname+"/public/images/"+svgNames[k]+svgExtensions[j]+".svg";
@@ -29,6 +33,8 @@ for (var k=0;k<svgNames.length;k++){
     }
     }
 }
+}
+
 
 
 
