@@ -138,6 +138,7 @@ app.get('/playAgain', function(request, response){
         newUser(user_data);
         csv_data.push(user_data);
         upLoadCSV(csv_data, "data/users.csv");
+        console.log(request.url);
         response.status(200);
         response.setHeader('Content-Type', 'text/html')
         response.render('game', {page:request.url, user:user_data, title:"game"});
