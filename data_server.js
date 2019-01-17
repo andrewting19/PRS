@@ -66,26 +66,18 @@ app.get('/:user/results', function(request, response){
       name: request.params.user,
       weapon: request.query.weapon,
       villain: request.query.villain
-<<<<<<< HEAD
-  };
-  //send more stuff under user data once result calculated
-  user_data["result"] = handleThrow(user_data.weapon, user_data.villain);
-  user_data["response"] =villainWeapon;
-
-  //manage user CSV for games, wins, losses, and weapon used
-=======
   };//send more stuff under user data
-    if (fs.existsSync("data/villainPrevious.txt")) {
+  if (fs.existsSync("data/villainPrevious.txt")) {
     villainPrevious=fs.readFileSync("data/villainPrevious.txt",'utf8');
-    }
-    if (fs.existsSync("data/userPrevious.txt")) {
+  }
+  if (fs.existsSync("data/userPrevious.txt")) {
     userPrevious=fs.readFileSync("data/userPrevious.txt",'utf8');
-    }
+  }
+  
   user_data["result"] = handleThrow(user_data.weapon, user_data.villain);
   user_data["response"] =villainWeapon;
-    fs.writeFileSync("data/villainPrevious.txt",villainWeapon,'utf8')
-    fs.writeFileSync("data/userPrevious.txt",villainWeapon,'utf8')
->>>>>>> 9dea04b8db1f3717c1c09364d7b3b891b2cc02bf
+  fs.writeFileSync("data/villainPrevious.txt",villainWeapon,'utf8')
+  fs.writeFileSync("data/userPrevious.txt",userPrevious,'utf8')
   var user_csv = loadCSV("data/users.csv");
   for (var i = 0; i < user_csv.length; i++) {
     if (user_csv[i]["name"] == user_data.name) {
