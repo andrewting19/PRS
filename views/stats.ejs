@@ -64,7 +64,7 @@
       <%for(var i=0; i < user["villain"].length; i++){%>
         <% if(user["villain"][i].total_games>0){ %>
         <tr>
-        <td><span class="player_name_span"><%=user["villain"][i].name%></span></td>
+        <td><span class="player_name_span"><%=user["villain"][i].name.replace('_', ' ')%></span></td>
         <td> <%=user["villain"][i].total_games%></td>
         <td> <%=user["villain"][i].wins%></td>
         <td> <%=user["villain"][i].losses%></td>
@@ -77,7 +77,7 @@
 
         <% } else{ %>
             <tr>
-        <td><span class="player_name_span"><%=user["villain"][i].name%></span></td>
+        <td><span class="player_name_span"><%=user["villain"][i].name.replace('_', ' ')%></span></td>
         <td>0</td>
         <td>0</td>
         <td>0</td>
