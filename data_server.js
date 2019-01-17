@@ -14,7 +14,7 @@ var allSvgs=[__dirname+"/public/images/the_boss_paper.svg",__dirname+"/public/im
 var colors=["red","blue","green","white","black","yellow","orange","purple"];
 for (var k=0;k<allSvgs.length;k++){
     svgName=allSvgs[k];
-    if(!svgName.includes("regal")&&!svgName.includes("pixie")){
+    if(!svgName.includes("regal")&&!svgName.includes("pixie_rock")&&!svgName.includes("the_boss_waiting")&&!svgName.includes("pixie_scissors")){
     var svgToEdit=fs.readFileSync(svgName, "utf8");
     var out=svgToEdit.split("fill");
     var output=out[0];
