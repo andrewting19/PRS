@@ -141,7 +141,7 @@ app.get('/playAgain', function(request, response){
         console.log(request.url);
         response.status(200);
         response.setHeader('Content-Type', 'text/html')
-        response.render('game', {page:request.url, user:user_data, title:"game"});
+        response.render('game', {page:request.url, user:user_data, title:"playGame"});
     }
 });
 
