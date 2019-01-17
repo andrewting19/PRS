@@ -49,7 +49,7 @@ app.get('/login', function(request, response){
     response.render('index', {page:request.url, user:user_data, title:"Index"});
   }
     
-  if (!findUser(user_data,csv_data,request,response)){ //if user isn't found in CSV
+  if (!findUser(user_data,csv_data,request,response, "game")){ //if user isn't found in CSV
       newUser(user_data); //create new user
       csv_data.push(user_data);
       upLoadCSV(csv_data, "data/users.csv");
@@ -134,11 +134,10 @@ app.get('/playAgain', function(request, response){
       response.render('index', {page:request.url, user:user_data, title:"Index"});
     }
     
-    if (!findUser(user_data,csv_data,request,response)){
+    if (!findUser(user_data,csv_data,request,response, "playGame")){
         newUser(user_data);
         csv_data.push(user_data);
         upLoadCSV(csv_data, "data/users.csv");
-        console.log(request.url);
         response.status(200);
         response.setHeader('Content-Type', 'text/html')
         response.render('game', {page:request.url, user:user_data, title:"playGame"});
@@ -253,13 +252,13 @@ function newUser(user_data) {
 }
 
 //checks to see if a user's login information correspond to an actual user
-function findUser(user_data,csv_data,request,response){
+function findUser(user_data,csv_data,request,response, titleN){
     for (var i = 0; i < csv_data.length; i++) {
     if (csv_data[i].name == user_data["name"]) {
       if (csv_data[i].pswd == user_data["pswd"]) {
         response.status(200);
         response.setHeader('Content-Type', 'text/html')
-        response.render('game', {page:request.url, user:user_data, title:"game"});
+        response.render('game', {page:request.url, user:user_data, title:titleN});
         return true;
         break;
       } else {
