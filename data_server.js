@@ -10,6 +10,22 @@ var userPrevious=randomChoice();
 var villainWeapon;
 var userName;
 var userPSWD;
+var allSvgs=[__dirname+"/public/images/the_boss_paper.svg",__dirname+"/public/images/the_magician_paper.svg",__dirname+"/public/images/harry_paper.svg",__dirname+"/public/images/gato_paper.svg",__dirname+"/public/images/bones_paper.svg",__dirname+"/public/images/manny_paper.svg",__dirname+"/public/images/comic_hans_paper.svg",__dirname+"/public/images/mickey_paper.svg",__dirname+"/public/images/pixie_paper.svg",__dirname+"/public/images/regal_paper.svg",__dirname+"/public/images/spock_paper.svg",__dirname+"/public/images/mr_modern_paper.svg",__dirname+"/public/images/the_boss_scissors.svg",__dirname+"/public/images/the_magician_scissors.svg",__dirname+"/public/images/harry_scissors.svg",__dirname+"/public/images/gato_scissors.svg",__dirname+"/public/images/bones_scissors.svg",__dirname+"/public/images/manny_scissors.svg",__dirname+"/public/images/comic_hans_scissors.svg",__dirname+"/public/images/mickey_scissors.svg",__dirname+"/public/images/pixie_scissors.svg",__dirname+"/public/images/regal_scissors.svg",__dirname+"/public/images/spock_scissors.svg",__dirname+"/public/images/mr_modern_scissors.svg",__dirname+"/public/images/the_boss_waiting.svg",__dirname+"/public/images/the_magician_waiting.svg",__dirname+"/public/images/harry_waiting.svg",__dirname+"/public/images/gato_waiting.svg",__dirname+"/public/images/bones_waiting.svg",__dirname+"/public/images/manny_waiting.svg",__dirname+"/public/images/comic_hans_waiting.svg",__dirname+"/public/images/mickey_waiting.svg",__dirname+"/public/images/pixie_waiting.svg",__dirname+"/public/images/regal_waiting.svg",__dirname+"/public/images/spock_waiting.svg",__dirname+"/public/images/mr_modern_waiting.svg",__dirname+"/public/images/the_boss_rock.svg",__dirname+"/public/images/the_magician_rock.svg",__dirname+"/public/images/harry_rock.svg",__dirname+"/public/images/gato_rock.svg",__dirname+"/public/images/bones_rock.svg",__dirname+"/public/images/manny_rock.svg",__dirname+"/public/images/comic_hans_rock.svg",__dirname+"/public/images/mickey_rock.svg",__dirname+"/public/images/pixie_rock.svg",__dirname+"/public/images/regal_rock.svg",__dirname+"/public/images/spock_rock.svg",__dirname+"/public/images/mr_modern_rock.svg"];
+var colors=["red","blue","green","white","black","yellow","orange","purple"];
+for (var k=0;k<allSvgs.length;k++){
+    svgName=allSvgs[k];
+    if(!svgName.includes("regal")&&!svgName.includes("pixie")){
+    var svgToEdit=fs.readFileSync(svgName, "utf8");
+    var out=svgToEdit.split("fill");
+    var output=out[0];
+    for(var i=1;i<out.length;i++){
+        output+="fill:"+colors[Math.floor(Math.random()*colors.length)]+out[i].substring(out[i].indexOf("\""),out.length);
+    }
+    fs.writeFileSync(svgName,output, "utf8");
+    }
+}
+
+
 
 //set up server
 app.use(express.static('public'));
@@ -49,7 +65,7 @@ app.get('/login', function(request, response){
     response.render('index', {page:request.url, user:user_data, title:"Index"});
   }
     
-  if (!findUser(user_data,csv_data,request,response, "game")){ //if user isn't found in CSV
+  if (!findUser(user_data,csv_data,request,response)){ //if user isn't found in CSV
       newUser(user_data); //create new user
       csv_data.push(user_data);
       upLoadCSV(csv_data, "data/users.csv");
@@ -134,13 +150,13 @@ app.get('/playAgain', function(request, response){
       response.render('index', {page:request.url, user:user_data, title:"Index"});
     }
     
-    if (!findUser(user_data,csv_data,request,response, "playGame")){
+    if (!findUser(user_data,csv_data,request,response)){
         newUser(user_data);
         csv_data.push(user_data);
         upLoadCSV(csv_data, "data/users.csv");
         response.status(200);
         response.setHeader('Content-Type', 'text/html')
-        response.render('game', {page:request.url, user:user_data, title:"playGame"});
+        response.render('game', {page:request.url, user:user_data, title:"game"});
     }
 });
 
@@ -252,13 +268,13 @@ function newUser(user_data) {
 }
 
 //checks to see if a user's login information correspond to an actual user
-function findUser(user_data,csv_data,request,response, titleN){
+function findUser(user_data,csv_data,request,response){
     for (var i = 0; i < csv_data.length; i++) {
     if (csv_data[i].name == user_data["name"]) {
       if (csv_data[i].pswd == user_data["pswd"]) {
         response.status(200);
         response.setHeader('Content-Type', 'text/html')
-        response.render('game', {page:request.url, user:user_data, title:titleN});
+        response.render('game', {page:request.url, user:user_data, title:"game"});
         return true;
         break;
       } else {
