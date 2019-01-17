@@ -10,10 +10,13 @@ var userPrevious=randomChoice();
 var villainWeapon;
 var userName;
 var userPSWD;
-var allSvgs=[__dirname+"/public/images/the_boss_paper.svg",__dirname+"/public/images/the_magician_paper.svg",__dirname+"/public/images/harry_paper.svg",__dirname+"/public/images/gato_paper.svg",__dirname+"/public/images/bones_paper.svg",__dirname+"/public/images/manny_paper.svg",__dirname+"/public/images/comic_hans_paper.svg",__dirname+"/public/images/mickey_paper.svg",__dirname+"/public/images/pixie_paper.svg",__dirname+"/public/images/regal_paper.svg",__dirname+"/public/images/spock_paper.svg",__dirname+"/public/images/mr_modern_paper.svg",__dirname+"/public/images/the_boss_scissors.svg",__dirname+"/public/images/the_magician_scissors.svg",__dirname+"/public/images/harry_scissors.svg",__dirname+"/public/images/gato_scissors.svg",__dirname+"/public/images/bones_scissors.svg",__dirname+"/public/images/manny_scissors.svg",__dirname+"/public/images/comic_hans_scissors.svg",__dirname+"/public/images/mickey_scissors.svg",__dirname+"/public/images/pixie_scissors.svg",__dirname+"/public/images/regal_scissors.svg",__dirname+"/public/images/spock_scissors.svg",__dirname+"/public/images/mr_modern_scissors.svg",__dirname+"/public/images/the_boss_waiting.svg",__dirname+"/public/images/the_magician_waiting.svg",__dirname+"/public/images/harry_waiting.svg",__dirname+"/public/images/gato_waiting.svg",__dirname+"/public/images/bones_waiting.svg",__dirname+"/public/images/manny_waiting.svg",__dirname+"/public/images/comic_hans_waiting.svg",__dirname+"/public/images/mickey_waiting.svg",__dirname+"/public/images/pixie_waiting.svg",__dirname+"/public/images/regal_waiting.svg",__dirname+"/public/images/spock_waiting.svg",__dirname+"/public/images/mr_modern_waiting.svg",__dirname+"/public/images/the_boss_rock.svg",__dirname+"/public/images/the_magician_rock.svg",__dirname+"/public/images/harry_rock.svg",__dirname+"/public/images/gato_rock.svg",__dirname+"/public/images/bones_rock.svg",__dirname+"/public/images/manny_rock.svg",__dirname+"/public/images/comic_hans_rock.svg",__dirname+"/public/images/mickey_rock.svg",__dirname+"/public/images/pixie_rock.svg",__dirname+"/public/images/regal_rock.svg",__dirname+"/public/images/spock_rock.svg",__dirname+"/public/images/mr_modern_rock.svg"];
+
+var svgNames=["the_boss","the_magician","harry","gato","bones","manny","comic_hans","mickey","pixie","regal","spock","mr_modern"];
 var colors=["red","blue","green","white","black","yellow","orange","purple"];
-for (var k=0;k<allSvgs.length;k++){
-    svgName=allSvgs[k];
+var svgExtensions=["_waiting","_rock","_scissors","_paper"];
+for (var k=0;svgNames.length;k++){
+    for (var j=0; j<svgExtensions.length;j++){
+    svgName=__dirname+"/public/images/"+svgNames[k]+svgExtensions[j]+".svg";
     if(!svgName.includes("regal_waiting")&&!svgName.includes("pixie_rock")&&!svgName.includes("the_boss_waiting")&&!svgName.includes("pixie_scissors")){
     var svgToEdit=fs.readFileSync(svgName, "utf8");
     var out=svgToEdit.split("fill");
@@ -22,6 +25,7 @@ for (var k=0;k<allSvgs.length;k++){
         output+="fill:"+colors[Math.floor(Math.random()*colors.length)]+out[i].substring(out[i].indexOf('"'),out[i].length);
     }
     fs.writeFileSync(svgName,output, "utf8");
+    }
     }
 }
 
