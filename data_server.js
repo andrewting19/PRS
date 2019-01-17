@@ -99,7 +99,12 @@ app.get('/:user/results', function(request, response){
   if (fs.existsSync("data/userPrevious.txt")) {
     userPrevious=fs.readFileSync("data/userPrevious.txt",'utf8');
   }
-  
+  if (user_data.weapon=="error"||user_data.villain=="error"){
+      return response.redirect('/playAgain');
+  }
+    else{
+        
+    
   user_data["result"] = handleThrow(user_data.weapon, user_data.villain);
   user_data["response"] =villainWeapon;
   fs.writeFileSync("data/villainPrevious.txt",villainWeapon,'utf8')
@@ -143,7 +148,7 @@ app.get('/:user/results', function(request, response){
   //render results
   response.status(200);
   response.setHeader('Content-Type', 'text/html')
-  response.render('results',{page:request.url, user:user_data, title:"results"});
+  response.render('results',{page:request.url, user:user_data, title:"results"});}
 });
 
 //request for when user wants to play again; basically exactly the same as the login request w/o having to log in again
