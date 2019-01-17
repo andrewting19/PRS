@@ -25,7 +25,7 @@ app.get('/', function(request, response){
   userPSWD = "";
   response.status(200);
   response.setHeader('Content-Type', 'text/html')
-  response.render('index', {page:request.url, user:user_data});
+  response.render('index', {page:request.url, user:user_data, title:"Index"});
 });
 
 app.get('/login', function(request, response){
@@ -38,7 +38,7 @@ app.get('/login', function(request, response){
     if (user_data["name"] == "") {
       response.status(200);
       response.setHeader('Content-Type', 'text/html')
-      response.render('index', {page:request.url, user:user_data});
+      response.render('index', {page:request.url, user:user_data, title:"Index"});
     }
     
     if (!findUser(user_data,csv_data,request,response)){
@@ -47,7 +47,7 @@ app.get('/login', function(request, response){
         upLoadCSV(csv_data, "data/users.csv");
         response.status(200);
         response.setHeader('Content-Type', 'text/html')
-        response.render('game', {page:request.url, user:user_data});
+        response.render('game', {page:request.url, user:user_data, title:"game"});
     }
 });
 
@@ -96,7 +96,7 @@ app.get('/:user/results', function(request, response){
   upLoadCSV(villains_csv, "data/villains.csv");
   response.status(200);
   response.setHeader('Content-Type', 'text/html')
-  response.render('results',{page:request.url, user:user_data});
+  response.render('results',{page:request.url, user:user_data, title:"results"});
 });
 
 app.get('/playAgain', function(request, response){
@@ -107,7 +107,7 @@ app.get('/playAgain', function(request, response){
     if (user_data["name"] == "") {
       response.status(200);
       response.setHeader('Content-Type', 'text/html')
-      response.render('index', {page:request.url, user:user_data});
+      response.render('index', {page:request.url, user:user_data, title:"Index"});
     }
     
     if (!findUser(user_data,csv_data,request,response)){
@@ -116,7 +116,7 @@ app.get('/playAgain', function(request, response){
         upLoadCSV(csv_data, "data/users.csv");
         response.status(200);
         response.setHeader('Content-Type', 'text/html')
-        response.render('game', {page:request.url, user:user_data});
+        response.render('game', {page:request.url, user:user_data, title:"game"});
     }
 });
 
@@ -124,7 +124,7 @@ app.get('/rules', function(request, response){
   user_data = {}
   response.status(200);
   response.setHeader('Content-Type', 'text/html')
-  response.render('rules', {page:request.url, user:user_data});
+  response.render('rules', {page:request.url, user:user_data, title:"rules"});
 });
 
 app.get('/stats', function(request, response){
@@ -135,14 +135,14 @@ app.get('/stats', function(request, response){
   data["villain"] = villain_data
   response.status(200);
   response.setHeader('Content-Type', 'text/html')
-  response.render('stats', {page:request.url, user:data});
+  response.render('stats', {page:request.url, user:data, title:"stats"});
 });
 
 app.get('/about', function(request, response){
   user_data = {};
   response.status(200);
   response.setHeader('Content-Type', 'text/html')
-  response.render('about', {page:request.url, user:user_data});
+  response.render('about', {page:request.url, user:user_data, title:"about"});
 });
 
 function loadCSV(filename) {
@@ -227,7 +227,7 @@ function findUser(user_data,csv_data,request,response){
       if (csv_data[i].pswd == user_data["pswd"]) {
         response.status(200);
         response.setHeader('Content-Type', 'text/html')
-        response.render('game', {page:request.url, user:user_data});
+        response.render('game', {page:request.url, user:user_data, title:"game"});
         return true;
         break;
       } else {
@@ -236,7 +236,7 @@ function findUser(user_data,csv_data,request,response){
         userPSWD = "";
         response.status(200);
         response.setHeader('Content-Type', 'text/html')
-        response.render('index', {page:request.url, user:user_data});
+        response.render('index', {page:request.url, user:user_data, title:"Index"});
         return true;
         break;
       }
