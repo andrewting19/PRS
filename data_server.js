@@ -18,20 +18,12 @@ for (var k=0;k<svgNames.length;k++){
     chosenColor=colors[Math.floor(Math.random()*colors.length)]
     for (var j=0; j<svgExtensions.length;j++){
     svgName=__dirname+"/public/images/"+svgNames[k]+svgExtensions[j]+".svg";
-    if(!svgName.includes("regal_waiting")&&!svgName.includes("pixie_rock")&&!svgName.includes("the_boss_waiting")&&!svgName.includes("pixie_scissors")){
+    if(!svgName.includes("regal_waiting")&&!svgName.includes("pixie_rock")&&!svgName.includes("the_boss_waiting")&&!svgName.includes("pixie_scissors")&&!svgName.includes("harry_waiting")){
     var svgToEdit=fs.readFileSync(svgName, "utf8");
     var out=svgToEdit.split("fill");
     var output=out[0];
     for(var i=1;i<out.length;i++){
-<<<<<<< HEAD
-<<<<<<< HEAD
         output+="fill:"+chosenColor+out[i].substring(out[i].indexOf('"'),out[i].length);
-=======
-        output+="fill:"+colors[Math.floor(Math.random()*colors.length)]+out[i].substring(out[i].indexOf("\""),out.length);
->>>>>>> parent of 90a787e... onegood
-=======
-        output+="fill:"+colors[Math.floor(Math.random()*colors.length)]+out[i].substring(out[i].indexOf("\""),out.length);
->>>>>>> parent of 90a787e... onegood
     }
     fs.writeFileSync(svgName,output, "utf8");
     }
