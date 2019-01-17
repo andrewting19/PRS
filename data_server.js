@@ -62,6 +62,7 @@ app.get('/login', function(request, response){
   userName = user_data["name"];
   userPSWD = user_data["pswd"];
   
+  user_data.feedback="Successful log in. Play the game!";
   //manage users in CSV
   var csv_data = loadCSV("data/users.csv");
   if (user_data["name"] == "") {//if someone accidentally submits login w/o entering anything
@@ -149,6 +150,7 @@ app.get('/playAgain', function(request, response){
     user_data["pswd"] = userPSWD;
     var csv_data = loadCSV("data/users.csv");
     //if the saved username is 
+    user_data.feedback="Play the game!";
     if (user_data["name"] == "") {
       response.status(200);
       response.setHeader('Content-Type', 'text/html')
