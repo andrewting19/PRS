@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>P,R,S - Stats</title>
+  <link rel="stylesheet" href="styles/style.css">
+ </head>
+<body>
+  <% include global/header %>
+
+  <div id="stats">
+    <h2>Stats</h2>
+    <h3>Player Stats</h3>
+    <table class = "cinereousTable">
+      <tr>
+        <th class="top_row">Player Name</th>
+        <th class="top_row">Games Played</th>
+        <th class="top_row">Wins </th>
+        <th class="top_row">Losses </th>
+        <th class="top_row">Win Rate</th>
+        <th class="top_row">Rock %</th>
+        <th class="top_row">Paper %</th>
+        <th class="top_row">Scissors %</th>
+      </tr>
+      <%for(var i=0; i < user["player"].length; i++){%>
+        <% if(user["player"][i].total_games>0){ %>
+        <tr>
+        <td><span class="player_name_span"><%=user["player"][i].name%></span></td>
+        <td> <%=user["player"][i].total_games%></td>
+        <td> <%=user["player"][i].wins%></td>
+        <td> <%=user["player"][i].losses%></td>
+        <td> <%=Math.round((user["player"][i].wins/(user["player"][i].total_games))*100)/100%></td>
+        <td> <%=Math.round(((user["player"][i].rock)/(user["player"][i].total_games))*100)+"%"%></td>
+        <td> <%=Math.round(((user["player"][i].paper)/(user["player"][i].total_games))*100)+"%"%></td>
+        <td> <%=Math.round(((user["player"][i].scissors)/(user["player"][i].total_games))*100)+"%"%></td>
+        </tr>
+         <% } else{ %>
+            <tr>
+        <td><span class="player_name_span"><%=user["player"][i].name%></span></td>
+        <td>0</td>
+        <td>0</td>
+        <td>0</td>
+        <td>0</td>
+        <td>0</td>
+        <td>0</td>
+        <td>0</td>
+            </tr>
+
+ <% } %>
+      <%}%>
+    </table>
+
+    <h3>Villain Stats</h3>
+    <table class = "cinereousTable">
+      <tr>
+        <th class="top_row">Villain Name</th>
+        <th class="top_row">Games Played %</th>
+        <th class="top_row">Wins </th>
+        <th class="top_row">Losses </th>
+        <th class="top_row">Win Rate</th>
+        <th class="top_row">Rock %</th>
+        <th class="top_row">Paper %</th>
+        <th class="top_row">Scissors %</th>
+      </tr>
+      <%for(var i=0; i < user["villain"].length; i++){%>
+        <% if(user["villain"][i].total_games>0){ %>
+        <tr>
+        <td><span class="player_name_span"><%=user["villain"][i].name%></span></td>
+        <td> <%=user["villain"][i].total_games%></td>
+        <td> <%=user["villain"][i].wins%></td>
+        <td> <%=user["villain"][i].losses%></td>
+        <td> <%=Math.round((user["villain"][i].wins/(user["villain"][i].total_games))*100)/100%></td>
+        <td> <%=Math.round(((user["villain"][i].rock)/(user["villain"][i].total_games))*100)+"%"%></td>
+        <td> <%=Math.round(((user["villain"][i].paper)/(user["villain"][i].total_games))*100)+"%"%></td>
+        <td> <%=Math.round(((user["villain"][i].scissors)/(user["villain"][i].total_games))*100)+"%"%></td>
+        </tr>
+
+
+        <% } else{ %>
+            <tr>
+        <td><span class="player_name_span"><%=user["villain"][i].name%></span></td>
+        <td>0</td>
+        <td>0</td>
+        <td>0</td>
+        <td>0</td>
+        <td>0</td>
+        <td>0</td>
+        <td>0</td>
+            </tr>
+
+ <% } %>
+      <%}%>
+    </table>
+    <br>
+    <form action="/playAgain" method="get">
+      <button type="submit" id = "play_again">Play</button>
+    </form>
+  </div>
+  <% include global/footer %>
+  <!-- <script src="scripts/scripts.js"></script> -->
+ </body>
+</html>
