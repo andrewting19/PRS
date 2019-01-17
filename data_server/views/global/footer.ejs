@@ -1,5 +1,5 @@
 <footer>
-  <%if(page != "/") {%>
+  <%if(page != "/" && user.failure != 4 && page != "/?") {%>
     <form action="/" method="get">
       <button type="submit" id = "log_out">
       Log Out

@@ -21,11 +21,11 @@ app.listen(port, function(){
 
 app.get('/', function(request, response){
   var user_data={};
+  userName = "";
+  userPSWD = "";
   response.status(200);
   response.setHeader('Content-Type', 'text/html')
   response.render('index', {page:request.url, user:user_data});
-  userName = "";
-  userPSWD = "";
 });
 
 app.get('/login', function(request, response){
@@ -103,9 +103,13 @@ app.get('/playAgain', function(request, response){
     var user_data={};
     user_data["name"] = userName;
     user_data["pswd"] = userPSWD;
-    console.log(userName, userPSWD);
     var csv_data = loadCSV("data/users.csv");
-    console.log(request.url);
+    if (user_data["name"] == "") {
+      response.status(200);
+      response.setHeader('Content-Type', 'text/html')
+      response.render('index', {page:request.url, user:user_data});
+    }
+    
     if (!findUser(user_data,csv_data,request,response)){
         newUser(user_data);
         csv_data.push(user_data);
@@ -117,9 +121,10 @@ app.get('/playAgain', function(request, response){
 });
 
 app.get('/rules', function(request, response){
+  user_data = {}
   response.status(200);
   response.setHeader('Content-Type', 'text/html')
-  response.render('rules', {page:request.url});
+  response.render('rules', {page:request.url, user:user_data});
 });
 
 app.get('/stats', function(request, response){
@@ -134,15 +139,15 @@ app.get('/stats', function(request, response){
 });
 
 app.get('/about', function(request, response){
+  user_data = {};
   response.status(200);
   response.setHeader('Content-Type', 'text/html')
-  response.render('about', {page:request.url});
+  response.render('about', {page:request.url, user:user_data});
 });
 
 function loadCSV(filename) {
   var users_file = fs.readFileSync(filename, "utf8");
   console.log(users_file);
-  //parse csv
   var rows = users_file.split('\n');
   var user_data = [];
   for(var i = 0; i < rows.length; i++) {
@@ -187,7 +192,6 @@ function upLoadCSV(user_data, file_name) {
     } else {
       aPercent =Math.round((a.wins/a.total_games)*100);
     }
-    console.log(bPercent);
     return (bPercent-aPercent);
   });
   for (var i = 0; i < user_data.length; i++) {
@@ -204,7 +208,6 @@ function upLoadCSV(user_data, file_name) {
     }
 
   }
-  // console.log(out);
   fs.writeFileSync(file_name, out, "utf8")
 }
 
@@ -229,6 +232,8 @@ function findUser(user_data,csv_data,request,response){
         break;
       } else {
         user_data["failure"] = 4;
+        userName = "";
+        userPSWD = "";
         response.status(200);
         response.setHeader('Content-Type', 'text/html')
         response.render('index', {page:request.url, user:user_data});
