@@ -201,6 +201,7 @@ function loadCSV(filename) {
   return user_data;
 }
 
+//uploads the csv containing all the gameplay data (used to update villains.csv and users.csv)
 function upLoadCSV(user_data, file_name) {
   var out="";
   user_data.sort(function(a,b) {
@@ -235,6 +236,7 @@ function upLoadCSV(user_data, file_name) {
   fs.writeFileSync(file_name, out, "utf8")
 }
 
+//creates a new User
 function newUser(user_data) {
   user_data["games"] =0;
   user_data["total_games"] =0;
@@ -245,6 +247,7 @@ function newUser(user_data) {
   user_data["scissors"] = 0;
 }
 
+//checks to see if a user's login information correspond to an actual user
 function findUser(user_data,csv_data,request,response){
     for (var i = 0; i < csv_data.length; i++) {
     if (csv_data[i].name == user_data["name"]) {
@@ -269,6 +272,7 @@ function findUser(user_data,csv_data,request,response){
     return false;
 }
 
+//handles a user's throw, returning the result and setting the value of the global variable villainWeapon
 function handleThrow(userWeapon, villain){
     villainWeapon=villainStrategies(villain,villainPrevious,userPrevious,userWeapon);
     switch(userWeapon){
@@ -279,13 +283,15 @@ function handleThrow(userWeapon, villain){
         case loseAgainst(villainWeapon):
             return("lost");
     }
-    villainPrevious=villainWeapon;
-    userPrevious=userWeapon;
 }
+
+//makes a random choice of weapon for use in the default scenario
 function randomChoice(){
     var choices=["rock","paper","scissors"];
     return choices[(3*Math.random())|0];
 }
+
+//calculates the villain's choice of weapon based on the inputs and the villain's possible strategies
 
 function villainStrategies(villain,villainPrevious,userPrevious,userCurrent){
     var rand=Math.random();
@@ -332,6 +338,8 @@ function villainStrategies(villain,villainPrevious,userPrevious,userCurrent){
             return choice;
     }
 }
+
+//returns the weapon that defeats the input weapon
 function winAgainst(weapon){
     switch(weapon){
         case "rock":
@@ -344,6 +352,8 @@ function winAgainst(weapon){
             return "Mjölnir"*/
     }
 }
+
+//returns the weapon that loses to the input weapon
 function loseAgainst(weapon){
   switch(weapon){
       case "rock":
