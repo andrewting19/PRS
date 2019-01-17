@@ -144,6 +144,7 @@ app.get('/playAgain', function(request, response){
     }
 });
 
+//handles a request for the rules page (sends the user to the rules page)
 app.get('/rules', function(request, response){
   user_data = {}
   response.status(200);
@@ -151,6 +152,7 @@ app.get('/rules', function(request, response){
   response.render('rules', {page:request.url, user:user_data, title:"rules"});
 });
 
+//handles a request for the rules page (inputs the necessary data and sends the user to the newly rendered stats page)
 app.get('/stats', function(request, response){
   var user_data = loadCSV("data/users.csv");
   var villain_data = loadCSV("data/villains.csv")
@@ -162,6 +164,7 @@ app.get('/stats', function(request, response){
   response.render('stats', {page:request.url, user:data, title:"stats"});
 });
 
+//handles a request for the rules page (sends the user to the rules page)
 app.get('/about', function(request, response){
   user_data = {};
   response.status(200);
@@ -169,6 +172,7 @@ app.get('/about', function(request, response){
   response.render('about', {page:request.url, user:user_data, title:"about"});
 });
 
+//loads villains.csv or users.csv, returning an object that contains the data contained in the spreadsheet
 function loadCSV(filename) {
   var users_file = fs.readFileSync(filename, "utf8");
   console.log(users_file);
