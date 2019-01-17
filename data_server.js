@@ -57,9 +57,16 @@ app.get('/:user/results', function(request, response){
       weapon: request.query.weapon,
       villain: request.query.villain
   };//send more stuff under user data
+    if (fs.existsSync("data/villainPrevious.txt")) {
+    villainPrevious=fs.readFileSync("data/villainPrevious.txt",'utf8');
+    }
+    if (fs.existsSync("data/userPrevious.txt")) {
+    userPrevious=fs.readFileSync("data/userPrevious.txt",'utf8');
+    }
   user_data["result"] = handleThrow(user_data.weapon, user_data.villain);
   user_data["response"] =villainWeapon;
-
+    fs.writeFileSync("data/villainPrevious.txt",villainWeapon,'utf8')
+    fs.writeFileSync("data/userPrevious.txt",villainWeapon,'utf8')
   var user_csv = loadCSV("data/users.csv");
   for (var i = 0; i < user_csv.length; i++) {
     if (user_csv[i]["name"] == user_data.name) {
