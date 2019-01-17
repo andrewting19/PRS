@@ -28,7 +28,7 @@
         <td> <%=user["player"][i].total_games%></td>
         <td> <%=user["player"][i].wins%></td>
         <td> <%=user["player"][i].losses%></td>
-        <td> <%=Math.round((user["player"][i].wins/(user["player"][i].total_games))*100)/100%></td>
+        <td> <%=Math.round((user["player"][i].wins/(user["player"][i].total_games))*100)+"%"%></td>
         <td> <%=Math.round(((user["player"][i].rock)/(user["player"][i].total_games))*100)+"%"%></td>
         <td> <%=Math.round(((user["player"][i].paper)/(user["player"][i].total_games))*100)+"%"%></td>
         <td> <%=Math.round(((user["player"][i].scissors)/(user["player"][i].total_games))*100)+"%"%></td>
