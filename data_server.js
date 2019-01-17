@@ -14,7 +14,8 @@ var userPSWD;
 var svgNames=["the_boss","the_magician","harry","gato","bones","manny","comic_hans","mickey","pixie","regal","spock","mr_modern"];
 var colors=["red","blue","green","white","black","yellow","orange","purple"];
 var svgExtensions=["_waiting","_rock","_scissors","_paper"];
-for (var k=0;svgNames.length;k++){
+for (var k=0;k<svgNames.length;k++){
+    chosenColor=colors[Math.floor(Math.random()*colors.length)]
     for (var j=0; j<svgExtensions.length;j++){
     svgName=__dirname+"/public/images/"+svgNames[k]+svgExtensions[j]+".svg";
     if(!svgName.includes("regal_waiting")&&!svgName.includes("pixie_rock")&&!svgName.includes("the_boss_waiting")&&!svgName.includes("pixie_scissors")){
@@ -22,7 +23,7 @@ for (var k=0;svgNames.length;k++){
     var out=svgToEdit.split("fill");
     var output=out[0];
     for(var i=1;i<out.length;i++){
-        output+="fill:"+colors[Math.floor(Math.random()*colors.length)]+out[i].substring(out[i].indexOf('"'),out[i].length);
+        output+="fill:"+chosenColor+out[i].substring(out[i].indexOf('"'),out[i].length);
     }
     fs.writeFileSync(svgName,output, "utf8");
     }
