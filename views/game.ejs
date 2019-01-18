@@ -9,7 +9,15 @@
 <body>
   <% include global/header %>
 
-  <div id="feedback" class = "positive"><%if (title == "playGame") {%> Play the Game! <%} else {%>Successfully Logged In!<%}%> </div>
+  <div id="feedback" class = "<%if (title == "valid") {%>negative<%} else {%>positive<%}%>">
+    <%if (title == "playGame") {%> 
+      Play the Game! 
+    <%} else if (title == "valid") {%>
+      Please enter a valid weapon and villain!
+    <%} else {%>
+      Successfully Logged In!
+    <%}%> 
+  </div>
   <div id="throw_choice">
       <h2>Play the Game</h2>
       <h4><%=user.name%> it's your turn to bust a move!</h4>

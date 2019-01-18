@@ -10,7 +10,7 @@ var userPrevious=randomChoice();
 var villainWeapon;
 var userName;
 var userPSWD;
-var error = False;
+var error = false;
 
 var svgNames=["the_boss","the_magician","harry","gato","bones","manny","comic_hans","mickey","pixie","regal","spock","mr_modern"];
 var colors=["red","blue","green","white","black","yellow","orange","purple"];
@@ -35,9 +35,6 @@ function changeColors(){
     }
 }
 }
-
-
-
 
 //set up server
 app.use(express.static('public'));
@@ -103,7 +100,7 @@ app.get('/:user/results', function(request, response){
   }
   
   if (user_data.weapon=="error"||user_data.villain=="error"){
-    error = True;
+    error = true;
     return response.redirect('/playAgain');
   } else{
     
@@ -291,7 +288,13 @@ function findUser(user_data,csv_data,request,response, titleN){
       if (csv_data[i].pswd == user_data["pswd"]) {
         response.status(200);
         response.setHeader('Content-Type', 'text/html')
-        response.render('game', {page:request.url, user:user_data, title:titleN});
+        if (error) {
+          error = false;
+          response.render('game', {page:request.url, user:user_data, title:"valid"});
+        } else {
+          response.render('game', {page:request.url, user:user_data, title:titleN});
+        }
+        
         return true;
         break;
       } else {
