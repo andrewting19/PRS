@@ -10,6 +10,7 @@ var userPrevious=randomChoice();
 var villainWeapon;
 var userName;
 var userPSWD;
+var error = False;
 
 var svgNames=["the_boss","the_magician","harry","gato","bones","manny","comic_hans","mickey","pixie","regal","spock","mr_modern"];
 var colors=["red","blue","green","white","black","yellow","orange","purple"];
@@ -100,60 +101,60 @@ app.get('/:user/results', function(request, response){
   if (fs.existsSync("data/userPrevious.txt")) {
     userPrevious=fs.readFileSync("data/userPrevious.txt",'utf8');
   }
+  
   if (user_data.weapon=="error"||user_data.villain=="error"){
-      return response.redirect('/playAgain');
-  }
-    else{
-        
+    error = True;
+    return response.redirect('/playAgain');
+  } else{
     
-  user_data["result"] = handleThrow(user_data.weapon, user_data.villain);
-  user_data["response"] =villainWeapon;
-  fs.writeFileSync("data/villainPrevious.txt",villainWeapon,'utf8')
-  fs.writeFileSync("data/userPrevious.txt",user_data.weapon,'utf8')
-  
-  var user_csv = loadCSV("data/users.csv");
-  for (var i = 0; i < user_csv.length; i++) {
-    if (user_csv[i]["name"] == user_data.name) {
-      user_csv[i][user_data.weapon] +=1;
-      user_csv[i]["total_games"]+=1;
-      switch(user_data["result"]){
+    user_data["result"] = handleThrow(user_data.weapon, user_data.villain);
+    user_data["response"] =villainWeapon;
+    fs.writeFileSync("data/villainPrevious.txt",villainWeapon,'utf8')
+    fs.writeFileSync("data/userPrevious.txt",user_data.weapon,'utf8')
+    
+    var user_csv = loadCSV("data/users.csv");
+    for (var i = 0; i < user_csv.length; i++) {
+      if (user_csv[i]["name"] == user_data.name) {
+        user_csv[i][user_data.weapon] +=1;
+        user_csv[i]["total_games"]+=1;
+        switch(user_data["result"]){
           case "won":
-              user_csv[i]["wins"] +=1;
-              break;
+          user_csv[i]["wins"] +=1;
+          break;
           case "lost":
-              user_csv[i]["losses"] +=1;
-              break;
+          user_csv[i]["losses"] +=1;
+          break;
+        }
       }
     }
-  }
-  
-  //manage villain CSV for games, wins, losses, and weapon used
-  upLoadCSV(user_csv, "data/users.csv");
-  var villains_csv = loadCSV("data/villains.csv");
-  for (var i = 0; i < villains_csv.length; i++) {
-    if (villains_csv[i]["name"] == user_data.villain) {
-      villains_csv[i][user_data.response] +=1;
-      villains_csv[i]["total_games"]+=1;
-      switch(user_data["result"]){
+    
+    //manage villain CSV for games, wins, losses, and weapon used
+    upLoadCSV(user_csv, "data/users.csv");
+    var villains_csv = loadCSV("data/villains.csv");
+    for (var i = 0; i < villains_csv.length; i++) {
+      if (villains_csv[i]["name"] == user_data.villain) {
+        villains_csv[i][user_data.response] +=1;
+        villains_csv[i]["total_games"]+=1;
+        switch(user_data["result"]){
           case "lost":
-              villains_csv[i]["wins"] +=1;
-              break;
+          villains_csv[i]["wins"] +=1;
+          break;
           case "won":
-              villains_csv[i]["losses"] +=1;
-              break;
+          villains_csv[i]["losses"] +=1;
+          break;
+        }
       }
     }
-  }
-  upLoadCSV(villains_csv, "data/villains.csv");
+    upLoadCSV(villains_csv, "data/villains.csv");
+    
+    //render results
+    response.status(200);
+    response.setHeader('Content-Type', 'text/html')
+    response.render('results',{page:request.url, user:user_data, title:"results"});}
+  });
   
-  //render results
-  response.status(200);
-  response.setHeader('Content-Type', 'text/html')
-  response.render('results',{page:request.url, user:user_data, title:"results"});}
-});
-
-//request for when user wants to play again; basically exactly the same as the login request w/o having to log in again
-app.get('/playAgain', function(request, response){
+  //request for when user wants to play again; basically exactly the same as the login request w/o having to log in again
+  app.get('/playAgain', function(request, response){
     //use the saved username and password which resets when you return to login page
     var user_data={};
     user_data["name"] = userName;
@@ -167,12 +168,12 @@ app.get('/playAgain', function(request, response){
     }
     
     if (!findUser(user_data,csv_data,request,response, "playGame")){
-        newUser(user_data);
-        csv_data.push(user_data);
-        upLoadCSV(csv_data, "data/users.csv");
-        response.status(200);
-        response.setHeader('Content-Type', 'text/html')
-        response.render('game', {page:request.url, user:user_data, title:"playGame"});
+      newUser(user_data);
+      csv_data.push(user_data);
+      upLoadCSV(csv_data, "data/users.csv");
+      response.status(200);
+      response.setHeader('Content-Type', 'text/html')
+      response.render('game', {page:request.url, user:user_data, title:"playGame"});
     }
 });
 
