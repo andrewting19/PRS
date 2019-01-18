@@ -19,7 +19,7 @@ var svgExtensions=["_waiting","_rock","_scissors","_paper"];
 
 //changes the colors of the svgs (currently called every login)
 function changeColors(){
-  var tempColors=colors;
+  var tempColors=colors.slice(0);
   for (var k=0;k<svgNames.length;k++){
     var index =Math.floor(Math.random()*tempColors.length);
     chosenColor=tempColors[index];
