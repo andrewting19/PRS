@@ -13,27 +13,27 @@ var userPSWD;
 var error = false;
 
 var svgNames=["the_boss","the_magician","harry","gato","bones","manny","comic_hans","mickey","pixie","regal","spock","mr_modern"];
-var colors=["red","blue","green","white","black","yellow","orange","purple"];
+var colors=["red","blue","green","white","olive","yellow","orange","purple", "navy", "gray", "fuchsia"];
 var svgExtensions=["_waiting","_rock","_scissors","_paper"];
 
 
 //changes the colors of the svgs (currently called every login)
 function changeColors(){
-    for (var k=0;k<svgNames.length;k++){
-    chosenColor=colors[Math.floor(Math.random()*colors.length)]
+  for (var k=0;k<svgNames.length;k++){
+    chosenColor=colors[k]
     for (var j=0; j<svgExtensions.length;j++){
       svgName=__dirname+"/public/images/"+svgNames[k]+svgExtensions[j]+".svg";
-    if(!svgName.includes("regal_waiting")&&!svgName.includes("pixie_rock")&&!svgName.includes("the_boss_waiting")&&!svgName.includes("pixie_scissors")&&!svgName.includes("harry_waiting")){
-    var svgToEdit=fs.readFileSync(svgName, "utf8");
-    var out=svgToEdit.split("fill");
-    var output=out[0];
-    for(var i=1;i<out.length;i++){
-        output+="fill:"+chosenColor+out[i].substring(out[i].indexOf('"'),out[i].length);
+      if(!svgName.includes("regal_waiting")&&!svgName.includes("pixie_rock")&&!svgName.includes("the_boss_waiting")&&!svgName.includes("pixie_scissors")&&!svgName.includes("harry_waiting")){
+        var svgToEdit=fs.readFileSync(svgName, "utf8");
+        var out=svgToEdit.split("fill");
+        var output=out[0];
+        for(var i=1;i<out.length;i++){
+          output+="fill:"+chosenColor+out[i].substring(out[i].indexOf('"'),out[i].length);
+        }
+        fs.writeFileSync(svgName,output, "utf8");
+      }
     }
-    fs.writeFileSync(svgName,output, "utf8");
-    }
-    }
-}
+  }
 }
 
 //set up server
