@@ -1,3 +1,7 @@
+//PRS Showdown
+//Authors: Sadi Gulcelik, Ayesha Ali
+//Date: 1/18/19
+
 //required packages
 var express = require('express');
 var fs = require('fs');
