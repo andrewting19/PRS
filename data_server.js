@@ -14,7 +14,7 @@ var userPSWD;
 var svgNames=["the_boss","the_magician","harry","gato","bones","manny","comic_hans","mickey","pixie","regal","spock","mr_modern"];
 var colors=["red","blue","green","white","black","yellow","orange","purple"];
 var svgExtensions=["_waiting","_rock","_scissors","_paper"];
-changeColors();
+
 
 //changes the colors of the svgs (currently called once only)
 function changeColors(){
@@ -61,6 +61,7 @@ app.get('/', function(request, response){
 
 //login request; renders either index if password is wrong or game if new user created or correct login entered
 app.get('/login', function(request, response){
+    changeColors();
   //set up data
   var user_data={};
   user_data["name"] = request.query.player_name;
