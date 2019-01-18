@@ -33,6 +33,15 @@ function changeColors(){
           output+="fill:"+chosenColor+out[i].substring(out[i].indexOf('"'),out[i].length);
         }
         fs.writeFileSync(svgName,output, "utf8");
+      } else {
+        var svgToEdit=fs.readFileSync(svgName, "utf8");
+        var out=svgToEdit.split("stroke:");
+        var output=out[0];
+        console.log(out);
+        for(var i=1;i<out.length;i++){
+          output+="stroke:"+chosenColor+out[i].substring(out[i].indexOf('"'),out[i].length);
+        }
+        fs.writeFileSync(svgName,output, "utf8");
       }
     }
     tempColors.splice(index,1)
