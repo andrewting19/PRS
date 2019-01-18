@@ -20,7 +20,8 @@ var svgExtensions=["_waiting","_rock","_scissors","_paper"];
 //changes the colors of the svgs (currently called every login)
 function changeColors(){
   for (var k=0;k<svgNames.length;k++){
-    chosenColor=colors[k]
+    var index =Math.floor(Math.random()*colors.length)
+    chosenColor=colors[index]
     for (var j=0; j<svgExtensions.length;j++){
       svgName=__dirname+"/public/images/"+svgNames[k]+svgExtensions[j]+".svg";
       if(!svgName.includes("regal_waiting")&&!svgName.includes("pixie_rock")&&!svgName.includes("the_boss_waiting")&&!svgName.includes("pixie_scissors")&&!svgName.includes("harry_waiting")){
@@ -33,6 +34,7 @@ function changeColors(){
         fs.writeFileSync(svgName,output, "utf8");
       }
     }
+    colors.splice(index,1)
   }
 }
 
