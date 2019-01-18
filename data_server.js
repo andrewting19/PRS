@@ -13,7 +13,7 @@ var userPSWD;
 var error = false;
 
 var svgNames=["the_boss","the_magician","harry","gato","bones","manny","comic_hans","mickey","pixie","regal","spock","mr_modern"];
-var colors=["red","blue","green","white","olive","yellow","orange","purple", "navy", "gray", "fuchsia"];
+var colors=["red","blue","green","white","olive","yellow","orange","purple", "navy", "gray", "fuchsia", "lime"];
 var svgExtensions=["_waiting","_rock","_scissors","_paper"];
 
 
@@ -24,7 +24,7 @@ function changeColors(){
     chosenColor=colors[index]
     for (var j=0; j<svgExtensions.length;j++){
       svgName=__dirname+"/public/images/"+svgNames[k]+svgExtensions[j]+".svg";
-      if(!svgName.includes("regal_waiting")&&!svgName.includes("pixie_rock")&&!svgName.includes("the_boss_waiting")&&!svgName.includes("pixie_scissors")&&!svgName.includes("harry_waiting")){
+      if(!svgName.includes("regal_waiting")&&!svgName.includes("the_boss_waiting")){
         var svgToEdit=fs.readFileSync(svgName, "utf8");
         var out=svgToEdit.split("fill");
         var output=out[0];
