@@ -25,7 +25,7 @@ function changeColors(){
     chosenColor=tempColors[index];
     for (var j=0; j<svgExtensions.length;j++){
       svgName=__dirname+"/public/images/"+svgNames[k]+svgExtensions[j]+".svg";
-      if(!svgName.includes("regal_waiting")&&!svgName.includes("the_boss_waiting")){
+      if(!svgName.includes("regal_waiting")){
         var svgToEdit=fs.readFileSync(svgName, "utf8");
         var out=svgToEdit.split("fill");
         var output=out[0];
