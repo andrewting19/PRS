@@ -41,7 +41,7 @@ function changeColors(){
         var svgToEdit=fs.readFileSync(svgName, "utf8");
         var out=svgToEdit.split("stroke:");
         var output=out[0];
-        console.log(out);
+        //console.log(out);
         for(var i=1;i<out.length;i++){
           output+="stroke:"+chosenColor+out[i].substring(out[i].indexOf('"'),out[i].length);
         }
@@ -220,7 +220,7 @@ app.get('/about', function(request, response){
 //loads villains.csv or users.csv, returning an object that contains the data contained in the spreadsheet
 function loadCSV(filename) {
   var users_file = fs.readFileSync(filename, "utf8");
-  console.log(users_file);
+  //console.log(users_file);
   var rows = users_file.split('\n');
   var user_data = [];
   for(var i = 0; i < rows.length; i++) {

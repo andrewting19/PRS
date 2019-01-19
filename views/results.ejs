@@ -9,8 +9,9 @@
 <body>
   <% include global/header %>
 
+    <img id="martin atkinson" src="" height=300; width=300;>
  <div id="game_results">
-    <p> You <%=user.result%>!</p>
+    <p id="result"> You <%=user.result%>!</p>
     <p> You threw <%=user.weapon%>!</p>
     <p> <%=user.villain.replace('_', ' ')%> threw <%=user.response%>!</p>
     <form action="/playAgain" method="get">
