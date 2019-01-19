@@ -9,16 +9,17 @@
 <body>
   <% include global/header %>
 
-    <img id="martin atkinson" src="" height=300; width=300;>
+    
  <div id="game_results">
+    <img id="martin atkinson" src="" height=140; width=140; style = "position: relative; z-index:1000; margin-top:20px">
     <p id="result"> You <%=user.result%>!</p>
     <p> You threw <%=user.weapon%>!</p>
     <p> <%=user.villain.replace('_', ' ')%> threw <%=user.response%>!</p>
     <form action="/playAgain" method="get">
       <button type="submit" id = "play_again">Play Again</button>
     </form>
-    <object id = "villain_image" type="image/svg+xml" data="../images/<%=user.villain.toLowerCase()%>_<%=user.response%>.svg" width = "100vw" height = "100vh"></object>
-    <img id="player_image" src="../images/player_<%=user.weapon%>.png">
+    <object id = "villain_image" type="image/svg+xml" data="../images/<%=user.villain.toLowerCase()%>_<%=user.response%>.svg" width = "150vw" height = "150vh"></object>
+    <img id="player_image" src="../images/player_<%=user.weapon%>.png" height=150; width=150;>
   </div>
   <% include global/footer %>
   <script src="../scripts/scripts.js"></script>
