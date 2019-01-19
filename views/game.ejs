@@ -18,8 +18,10 @@
       Successfully Logged In!
     <%}%> 
   </div>
-    <img id="martin atkinson" src="" height=300; width=300;>
+    
   <div id="throw_choice">
+    <img id="martin atkinson" src="" height=300; width=300; style = "position: relative; float: left; z-index:1000; left:6%; margin-top:20px">
+    <div style = "position: relative; left:-11%">
       <h2 id="hurry?">Play the Game</h2>
       <h4><%=user.name%> it's your turn to bust a move!</h4>
       <form action="../<%=user.name%>/results" method="get">
@@ -52,6 +54,7 @@
       </form>
       <img id = "villain_img" width = "200" height = "200" src = "">
     </div>
+  </div>
   <% include global/footer %>
   <script src="scripts/scripts.js"></script>
   <script>
